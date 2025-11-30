@@ -222,8 +222,8 @@ function initRSVPForm() {
                 alergias: document.getElementById('alergias').value.trim()
             };
 
-            // Log de los datos (en producción se enviarían a un servidor)
-            console.log('Datos del formulario RSVP:', formData);
+            // En producción, los datos se enviarían a un servidor
+            // Por ahora, simplemente mostramos el mensaje de confirmación
 
             // Mostrar mensaje de confirmación
             form.hidden = true;
@@ -313,8 +313,6 @@ function init() {
     initRSVPForm();
     initHeaderScroll();
     initActiveNavHighlight();
-    
-    console.log('Wedding website initialized! 💒');
 }
 
 // Ejecutar cuando el DOM esté completamente cargado
