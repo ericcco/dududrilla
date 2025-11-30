@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Boda de Sandra y Eduard - Save the Date">
+    <title>Sandra & Eduard - Nuestra Boda</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts - Tipografías elegantes serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- ==================== NAVEGACIÓN FIJA ==================== -->
+    <header class="header" id="header">
+        <nav class="nav">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="#save-the-date" class="nav__link">Save the Date</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#ubicacion" class="nav__link">Ubicación</a>
+                </li>
+                <li class="nav__item">
+                    <a href="#rsvp" class="nav__link">Confirmar asistencia</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Botón hamburguesa para móvil -->
+        <button class="nav__toggle" id="navToggle" aria-label="Abrir menú">
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+            <span class="nav__toggle-line"></span>
+        </button>
+    </header>
+
+    <main>
+        <!-- ==================== SECCIÓN 1: SAVE THE DATE (LANDING) ==================== -->
+        <section class="section section--hero" id="save-the-date">
+            <div class="hero__content">
+                <!-- Título principal - Fácil de editar -->
+                <h1 class="hero__title">Sandra <span class="hero__ampersand">&</span> Eduard</h1>
+                
+                <!-- Subtítulo -->
+                <p class="hero__subtitle">Save the Date</p>
+                
+                <!-- Fecha de la boda - EDITAR AQUÍ LA FECHA -->
+                <p class="hero__date">15 de Junio de 2025</p>
+                
+                <!-- Botones de navegación -->
+                <div class="hero__buttons">
+                    <a href="#ubicacion" class="btn btn--primary">Ver ubicación</a>
+                    <a href="#rsvp" class="btn btn--secondary">Confirmar asistencia</a>
+                </div>
+            </div>
+            <!-- Decoración floral -->
+            <div class="hero__decoration hero__decoration--top"></div>
+            <div class="hero__decoration hero__decoration--bottom"></div>
+        </section>
+
+        <!-- ==================== SECCIÓN 2: UBICACIÓN ==================== -->
+        <section class="section section--location" id="ubicacion">
+            <div class="container">
+                <h2 class="section__title">Ubicación</h2>
+                
+                <div class="location__grid">
+                    <!-- Información de la ceremonia -->
+                    <div class="location__card">
+                        <h3 class="location__card-title">Ceremonia</h3>
+                        <!-- EDITAR AQUÍ LA DIRECCIÓN DE LA CEREMONIA -->
+                        <p class="location__address">Iglesia de Santa María</p>
+                        <p class="location__address">Calle Mayor, 25</p>
+                        <p class="location__address">Barcelona, España</p>
+                    </div>
+                    
+                    <!-- Información del banquete -->
+                    <div class="location__card">
+                        <h3 class="location__card-title">Banquete</h3>
+                        <!-- EDITAR AQUÍ LA DIRECCIÓN DEL BANQUETE -->
+                        <p class="location__address">Masía Can Ribas</p>
+                        <p class="location__address">Camino del Bosque, 12</p>
+                        <p class="location__address">Sant Cugat del Vallès, España</p>
+                    </div>
+                </div>
+
+                <!-- Mapa embebido -->
+                <div class="location__map">
+                    <!-- 
+                        MAPA: Reemplazar el src del iframe con la URL real de Google Maps.
+                        Para obtener el código de embed:
+                        1. Ve a Google Maps
+                        2. Busca la ubicación
+                        3. Haz clic en "Compartir" > "Insertar un mapa"
+                        4. Copia el código del iframe
+                    -->
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2993.7083787738896!2d2.1686!3d41.3851!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDHCsDIzJzA2LjQiTiAywrAxMCcwNy4wIkU!5e0!3m2!1ses!2ses!4v1234567890"
+                        width="100%" 
+                        height="400" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade"
+                        title="Mapa de la ubicación de la boda">
+                    </iframe>
+                </div>
+
+                <!-- Información útil -->
+                <div class="location__info">
+                    <h3 class="location__info-title">Información útil</h3>
+                    <ul class="location__info-list">
+                        <!-- EDITAR AQUÍ LOS HORARIOS -->
+                        <li class="location__info-item">
+                            <span class="location__info-icon">🕐</span>
+                            <span><strong>Ceremonia:</strong> 12:00 h</span>
+                        </li>
+                        <li class="location__info-item">
+                            <span class="location__info-icon">🍽️</span>
+                            <span><strong>Banquete:</strong> 14:00 h</span>
+                        </li>
+                        <li class="location__info-item">
+                            <span class="location__info-icon">👔</span>
+                            <span><strong>Dress code:</strong> Etiqueta cóctel</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Botones de navegación -->
+                <div class="section__buttons">
+                    <a href="#save-the-date" class="btn btn--outline">Volver al inicio</a>
+                    <a href="#rsvp" class="btn btn--primary">Confirmar asistencia</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 3: FORMULARIO RSVP ==================== -->
+        <section class="section section--rsvp" id="rsvp">
+            <div class="container">
+                <h2 class="section__title">Confirma tu asistencia</h2>
+                <p class="section__description">Por favor, completa el formulario antes del 1 de Mayo de 2025</p>
+
+                <form class="rsvp-form" id="rsvpForm" novalidate>
+                    <!-- Nombre completo (obligatorio) -->
+                    <div class="form__group">
+                        <label for="nombre" class="form__label">Nombre completo <span class="form__required">*</span></label>
+                        <input 
+                            type="text" 
+                            id="nombre" 
+                            name="nombre" 
+                            class="form__input" 
+                            required
+                            placeholder="Tu nombre completo"
+                            autocomplete="name">
+                        <span class="form__error" id="nombreError"></span>
+                    </div>
+
+                    <!-- Email (obligatorio) -->
+                    <div class="form__group">
+                        <label for="email" class="form__label">Email <span class="form__required">*</span></label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            class="form__input" 
+                            required
+                            placeholder="tu@email.com"
+                            autocomplete="email">
+                        <span class="form__error" id="emailError"></span>
+                    </div>
+
+                    <!-- Teléfono (opcional) -->
+                    <div class="form__group">
+                        <label for="telefono" class="form__label">Teléfono</label>
+                        <input 
+                            type="tel" 
+                            id="telefono" 
+                            name="telefono" 
+                            class="form__input" 
+                            placeholder="Tu número de teléfono"
+                            autocomplete="tel">
+                    </div>
+
+                    <!-- Número de acompañantes -->
+                    <div class="form__group">
+                        <label for="acompanantes" class="form__label">Número de acompañantes</label>
+                        <input 
+                            type="number" 
+                            id="acompanantes" 
+                            name="acompanantes" 
+                            class="form__input" 
+                            min="0" 
+                            max="10" 
+                            value="0"
+                            placeholder="0">
+                    </div>
+
+                    <!-- Asistencia (radio buttons) -->
+                    <div class="form__group">
+                        <label class="form__label">¿Asistirás? <span class="form__required">*</span></label>
+                        <div class="form__radio-group">
+                            <label class="form__radio">
+                                <input type="radio" name="asistencia" value="si" required>
+                                <span class="form__radio-custom"></span>
+                                <span class="form__radio-label">Asistiré</span>
+                            </label>
+                            <label class="form__radio">
+                                <input type="radio" name="asistencia" value="no" required>
+                                <span class="form__radio-custom"></span>
+                                <span class="form__radio-label">No podré asistir</span>
+                            </label>
+                        </div>
+                        <span class="form__error" id="asistenciaError"></span>
+                    </div>
+
+                    <!-- Alergias / Restricciones alimentarias -->
+                    <div class="form__group">
+                        <label for="alergias" class="form__label">Alergias o restricciones alimentarias</label>
+                        <textarea 
+                            id="alergias" 
+                            name="alergias" 
+                            class="form__textarea" 
+                            rows="4"
+                            placeholder="Indica cualquier alergia o restricción alimentaria que debamos conocer..."></textarea>
+                    </div>
+
+                    <!-- Botón de envío -->
+                    <div class="form__group form__group--submit">
+                        <button type="submit" class="btn btn--primary btn--large">Enviar confirmación</button>
+                    </div>
+                </form>
+
+                <!-- Mensaje de confirmación (oculto por defecto) -->
+                <div class="rsvp-confirmation" id="rsvpConfirmation" hidden>
+                    <div class="rsvp-confirmation__content">
+                        <span class="rsvp-confirmation__icon">💌</span>
+                        <h3 class="rsvp-confirmation__title">¡Gracias por confirmar!</h3>
+                        <p class="rsvp-confirmation__message">Hemos recibido tu confirmación. Nos vemos pronto.</p>
+                        <a href="#save-the-date" class="btn btn--outline">Volver al inicio</a>
+                    </div>
+                </div>
+
+                <!-- Botón para volver -->
+                <div class="section__buttons" id="rsvpButtons">
+                    <a href="#save-the-date" class="btn btn--outline">Volver al inicio</a>
+                    <a href="#ubicacion" class="btn btn--outline">Ver ubicación</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <p class="footer__text">Sandra & Eduard · 2025</p>
+        <p class="footer__text footer__text--small">Hecho con ❤️</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
