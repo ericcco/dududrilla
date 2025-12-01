@@ -296,6 +296,12 @@ function showValidatedCode(codeData) {
     const guestsInput = document.getElementById('acompanantes');
     const guestsHint = document.getElementById('guestsHint');
 
+    // Check if the code has been fully redeemed (no remaining guests)
+    if (codeData.remainingGuests <= 0) {
+        showAlreadySubmittedMessage();
+        return;
+    }
+
     // Hide code form, show info and RSVP form
     invitationCodeForm.hidden = true;
     invitationCodeInfo.hidden = false;
