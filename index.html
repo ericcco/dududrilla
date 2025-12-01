@@ -140,7 +140,41 @@
                 <h2 class="section__title">Confirma tu asistencia</h2>
                 <p class="section__description">Por favor, completa el formulario antes del 1 de Mayo de 2025</p>
 
-                <form class="rsvp-form" id="rsvpForm" novalidate>
+                <!-- Verificación de código de invitación -->
+                <div class="invitation-code-form" id="invitationCodeForm">
+                    <div class="invitation-code__card">
+                        <span class="invitation-code__icon">🎫</span>
+                        <h3 class="invitation-code__title">Introduce tu código de invitación</h3>
+                        <p class="invitation-code__description">Para confirmar tu asistencia, necesitas tu código personal de invitación.</p>
+                        <form id="codeVerificationForm" novalidate>
+                            <div class="form__group">
+                                <label for="invitationCode" class="form__label">Código de invitación <span class="form__required">*</span></label>
+                                <input 
+                                    type="text" 
+                                    id="invitationCode" 
+                                    name="invitationCode" 
+                                    class="form__input form__input--code"
+                                    placeholder="Ej: ABC12345"
+                                    autocomplete="off"
+                                    required>
+                                <span class="form__error" id="invitationCodeError"></span>
+                            </div>
+                            <button type="submit" class="btn btn--primary btn--large">Verificar código</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Información del código validado -->
+                <div class="invitation-code-info" id="invitationCodeInfo" hidden>
+                    <p class="invitation-code-info__text">
+                        <span class="invitation-code-info__icon">✓</span>
+                        Código válido: <strong id="validatedCodeText"></strong>
+                        <span id="guestsRemainingText"></span>
+                    </p>
+                    <button type="button" class="btn btn--outline btn--small" id="changeCodeBtn">Cambiar código</button>
+                </div>
+
+                <form class="rsvp-form" id="rsvpForm" novalidate hidden>
                     <!-- Nombre completo (obligatorio) -->
                     <div class="form__group">
                         <label for="nombre" class="form__label">Nombre completo <span class="form__required">*</span></label>
@@ -181,18 +215,19 @@
                             autocomplete="tel">
                     </div>
 
-                    <!-- Número de acompañantes -->
+    <!-- Número de invitados (con límite dinámico) -->
                     <div class="form__group">
-                        <label for="acompanantes" class="form__label">Número de acompañantes</label>
+                        <label for="acompanantes" class="form__label">Número total de invitados (incluyéndote)</label>
                         <input 
                             type="number" 
                             id="acompanantes" 
                             name="acompanantes" 
                             class="form__input" 
-                            min="0" 
+                            min="1" 
                             max="10" 
-                            value="0"
-                            placeholder="0">
+                            value="1"
+                            placeholder="1">
+                        <span class="form__hint" id="guestsHint">Máximo de invitados permitidos con este código</span>
                     </div>
 
                     <!-- Asistencia (radio buttons) -->
@@ -255,6 +290,15 @@
         <p class="footer__text footer__text--small">Hecho con ❤️</p>
     </footer>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    
+    <!-- Application modules -->
+    <script src="js/firebase-config.example.js"></script>
+    <script src="js/invitation-codes.js"></script>
+    <script src="js/rsvp.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

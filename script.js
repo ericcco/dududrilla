@@ -159,6 +159,147 @@ function validateForm() {
     return isValid;
 }
 
+// ==================== INVITATION CODE VERIFICATION ====================
+
+/**
+ * Inicializa el sistema de verificación de códigos de invitación
+ */
+function initInvitationCodeVerification() {
+    const codeForm = document.getElementById('codeVerificationForm');
+    const invitationCodeForm = document.getElementById('invitationCodeForm');
+    const invitationCodeInfo = document.getElementById('invitationCodeInfo');
+    const rsvpForm = document.getElementById('rsvpForm');
+    const changeCodeBtn = document.getElementById('changeCodeBtn');
+    const codeInput = document.getElementById('invitationCode');
+    const codeError = document.getElementById('invitationCodeError');
+
+    if (!codeForm) return;
+
+    // Handle code verification form submission
+    codeForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const code = codeInput.value.trim();
+        
+        if (!code) {
+            if (codeError) {
+                codeError.textContent = 'Por favor, introduce tu código de invitación.';
+            }
+            codeInput.classList.add('error');
+            return;
+        }
+
+        // Clear previous error
+        if (codeError) {
+            codeError.textContent = '';
+        }
+        codeInput.classList.remove('error');
+
+        // Show loading state
+        const submitBtn = codeForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'Verificando...';
+        submitBtn.disabled = true;
+
+        try {
+            // Validate the code using the InvitationCodes module
+            const codeData = await window.InvitationCodes.validateCode(code);
+            
+            // Store the validated code in the RSVP module
+            window.RSVPModule.setCurrentCode(codeData);
+            
+            // Update UI to show validated code info
+            showValidatedCode(codeData);
+            
+        } catch (error) {
+            if (codeError) {
+                codeError.textContent = error.message;
+            }
+            codeInput.classList.add('error');
+        } finally {
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Handle change code button
+    if (changeCodeBtn) {
+        changeCodeBtn.addEventListener('click', function() {
+            // Clear the validated code
+            window.RSVPModule.clearCurrentCode();
+            
+            // Reset UI
+            invitationCodeForm.hidden = false;
+            invitationCodeInfo.hidden = true;
+            rsvpForm.hidden = true;
+            codeInput.value = '';
+            
+            // Reset guests input
+            const guestsInput = document.getElementById('acompanantes');
+            if (guestsInput) {
+                guestsInput.max = 10;
+                guestsInput.value = 1;
+            }
+        });
+    }
+
+    // Real-time validation for code input
+    if (codeInput) {
+        codeInput.addEventListener('input', function() {
+            // Convert to uppercase as user types
+            this.value = this.value.toUpperCase();
+            
+            if (this.value.trim()) {
+                clearError(this);
+            }
+        });
+    }
+}
+
+/**
+ * Show the validated code information and RSVP form
+ * @param {Object} codeData - The validated code data
+ */
+function showValidatedCode(codeData) {
+    const invitationCodeForm = document.getElementById('invitationCodeForm');
+    const invitationCodeInfo = document.getElementById('invitationCodeInfo');
+    const rsvpForm = document.getElementById('rsvpForm');
+    const validatedCodeText = document.getElementById('validatedCodeText');
+    const guestsRemainingText = document.getElementById('guestsRemainingText');
+    const guestsInput = document.getElementById('acompanantes');
+    const guestsHint = document.getElementById('guestsHint');
+
+    // Hide code form, show info and RSVP form
+    invitationCodeForm.hidden = true;
+    invitationCodeInfo.hidden = false;
+    rsvpForm.hidden = false;
+
+    // Update validated code display
+    if (validatedCodeText) {
+        validatedCodeText.textContent = codeData.code;
+    }
+    
+    if (guestsRemainingText) {
+        guestsRemainingText.textContent = ` (${codeData.remainingGuests} invitados restantes)`;
+    }
+
+    // Update guests input max value
+    if (guestsInput) {
+        guestsInput.max = codeData.remainingGuests;
+        guestsInput.value = Math.min(1, codeData.remainingGuests);
+    }
+
+    // Update guests hint
+    if (guestsHint) {
+        guestsHint.textContent = `Máximo ${codeData.remainingGuests} invitados permitidos con este código`;
+    }
+
+    // Scroll to the RSVP form
+    rsvpForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ==================== RSVP FORM ====================
+
 /**
  * Inicializa el formulario RSVP
  */
@@ -166,6 +307,7 @@ function initRSVPForm() {
     const form = document.getElementById('rsvpForm');
     const confirmation = document.getElementById('rsvpConfirmation');
     const rsvpButtons = document.getElementById('rsvpButtons');
+    const invitationCodeInfo = document.getElementById('invitationCodeInfo');
 
     if (!form) return;
 
@@ -208,36 +350,56 @@ function initRSVPForm() {
     }
 
     // Manejar envío del formulario
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        if (validateForm()) {
-            // Recoger datos del formulario
-            const formData = {
-                nombre: document.getElementById('nombre').value.trim(),
-                email: document.getElementById('email').value.trim(),
-                telefono: document.getElementById('telefono').value.trim(),
-                acompanantes: document.getElementById('acompanantes').value,
-                asistencia: document.querySelector('input[name="asistencia"]:checked').value,
-                alergias: document.getElementById('alergias').value.trim()
-            };
+        if (!validateForm()) {
+            return;
+        }
 
-            // En producción, los datos se enviarían a un servidor
-            // Por ahora, simplemente mostramos el mensaje de confirmación
+        // Collect form data
+        const formData = {
+            name: document.getElementById('nombre').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            phone: document.getElementById('telefono').value.trim(),
+            guestsCount: parseInt(document.getElementById('acompanantes').value, 10) || 1,
+            attendance: document.querySelector('input[name="asistencia"]:checked').value,
+            allergies: document.getElementById('alergias').value.trim()
+        };
 
-            // Mostrar mensaje de confirmación
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'Enviando...';
+        submitBtn.disabled = true;
+
+        try {
+            // Submit RSVP using the module
+            await window.RSVPModule.submitRSVP(formData);
+
+            // Show success message
             form.hidden = true;
             if (rsvpButtons) {
                 rsvpButtons.hidden = true;
+            }
+            if (invitationCodeInfo) {
+                invitationCodeInfo.hidden = true;
             }
             if (confirmation) {
                 confirmation.hidden = false;
             }
 
-            // Scroll al mensaje de confirmación
+            // Scroll to confirmation message
             if (confirmation) {
                 confirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
+
+        } catch (error) {
+            // Show error message
+            alert(error.message || 'Error al enviar tu confirmación. Por favor, inténtalo de nuevo.');
+        } finally {
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
         }
     });
 }
@@ -252,8 +414,6 @@ function initHeaderScroll() {
     
     if (!header) return;
 
-    let lastScrollTop = 0;
-
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
@@ -263,8 +423,6 @@ function initHeaderScroll() {
         } else {
             header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.08)';
         }
-        
-        lastScrollTop = scrollTop;
     });
 }
 
@@ -302,14 +460,27 @@ function initActiveNavHighlight() {
     highlightNav(); // Ejecutar al cargar
 }
 
+// ==================== FIREBASE INITIALIZATION ====================
+
+/**
+ * Initialize Firebase when the page loads
+ */
+function initFirebase() {
+    if (window.FirebaseConfig && typeof window.FirebaseConfig.initialize === 'function') {
+        window.FirebaseConfig.initialize();
+    }
+}
+
 // ==================== INICIALIZACIÓN ====================
 
 /**
  * Inicializa todas las funcionalidades cuando el DOM está listo
  */
 function init() {
+    initFirebase();
     initMobileNav();
     initSmoothScroll();
+    initInvitationCodeVerification();
     initRSVPForm();
     initHeaderScroll();
     initActiveNavHighlight();
