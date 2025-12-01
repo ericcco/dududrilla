@@ -631,8 +631,10 @@ async function initAccessGate() {
         }
         showMainContent();
         
-        // Check if RSVP was already submitted (from sessionStorage first, then Firestore)
-        if (hasSubmittedRSVP()) {
+        // Check if code has no remaining guests, RSVP was already submitted, or exists in Firestore
+        if (storedCode && storedCode.remainingGuests <= 0) {
+            showAlreadySubmittedMessage();
+        } else if (hasSubmittedRSVP()) {
             showAlreadySubmittedMessage();
         } else if (storedCode && storedCode.code) {
             // Check Firestore for existing RSVP
@@ -674,8 +676,8 @@ async function initAccessGate() {
         submitBtn.disabled = true;
 
         try {
-            // Validate the code using the InvitationCodes module
-            const codeData = await window.InvitationCodes.validateCode(code);
+            // Validate the code using the InvitationCodes module (for access only, not RSVP)
+            const codeData = await window.InvitationCodes.validateCodeForAccess(code);
             
             // Store the validated code for session
             storeAccessCode(codeData);
@@ -688,8 +690,12 @@ async function initAccessGate() {
             // Show main content
             showMainContent();
             
-            // Check if RSVP was already submitted for this code
-            await checkAndHandleExistingRSVP(codeData.code);
+            // Check if RSVP was already submitted for this code OR if code has no remaining guests
+            if (codeData.remainingGuests <= 0) {
+                showAlreadySubmittedMessage();
+            } else {
+                await checkAndHandleExistingRSVP(codeData.code);
+            }
             
         } catch (error) {
             if (accessCodeError) {
