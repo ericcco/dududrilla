@@ -789,6 +789,91 @@ ul {
     outline-offset: 2px;
 }
 
+/* ==================== ACCESS GATE SYSTEM ==================== */
+
+.access-gate {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink-pale) 50%, var(--color-cream-dark) 100%);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.access-gate__content {
+    position: relative;
+    z-index: 1;
+    max-width: 500px;
+    width: 100%;
+    animation: fadeInUp 1s ease-out;
+}
+
+.access-gate__title {
+    font-family: var(--font-serif);
+    font-size: 3rem;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--color-text);
+    line-height: 1.2;
+    margin-bottom: var(--spacing-sm);
+}
+
+.access-gate__ampersand {
+    color: var(--color-gold);
+}
+
+.access-gate__subtitle {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-xl);
+}
+
+.access-gate__card {
+    background-color: var(--color-white);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-medium);
+    text-align: center;
+}
+
+.access-gate__icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: var(--spacing-md);
+}
+
+.access-gate__card-title {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+.access-gate__description {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-lg);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Responsive access gate */
+@media (max-width: 767px) {
+    .access-gate__title {
+        font-size: 2.2rem;
+    }
+    
+    .access-gate__card {
+        padding: var(--spacing-lg);
+    }
+}
+
 /* ==================== INVITATION CODE SYSTEM ==================== */
 
 .invitation-code-form {

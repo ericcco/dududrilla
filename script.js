@@ -175,6 +175,13 @@ function initInvitationCodeVerification() {
 
     if (!codeForm) return;
 
+    // Check if code is already validated from access gate
+    const storedCode = getStoredAccessCode();
+    if (storedCode && window.RSVPModule.getCurrentCode()) {
+        // Directly show the RSVP form with the stored code
+        showValidatedCode(storedCode);
+    }
+
     // Handle code verification form submission
     codeForm.addEventListener('submit', async function(e) {
         e.preventDefault();
@@ -208,6 +215,9 @@ function initInvitationCodeVerification() {
             // Store the validated code in the RSVP module
             window.RSVPModule.setCurrentCode(codeData);
             
+            // Also store in session storage for access gate
+            storeAccessCode(codeData);
+            
             // Update UI to show validated code info
             showValidatedCode(codeData);
             
@@ -227,6 +237,9 @@ function initInvitationCodeVerification() {
         changeCodeBtn.addEventListener('click', function() {
             // Clear the validated code
             window.RSVPModule.clearCurrentCode();
+            
+            // Also clear from session storage (requires re-verifying at access gate)
+            sessionStorage.removeItem(ACCESS_CODE_KEY);
             
             // Reset UI
             invitationCodeForm.hidden = false;
@@ -471,6 +484,142 @@ function initFirebase() {
     }
 }
 
+// ==================== ACCESS GATE ====================
+
+const ACCESS_CODE_KEY = 'wedding_access_code';
+
+/**
+ * Check if user has already verified access code
+ * @returns {boolean}
+ */
+function hasAccessCode() {
+    return sessionStorage.getItem(ACCESS_CODE_KEY) !== null;
+}
+
+/**
+ * Store the validated access code in session storage
+ * @param {Object} codeData - The validated code data
+ */
+function storeAccessCode(codeData) {
+    sessionStorage.setItem(ACCESS_CODE_KEY, JSON.stringify(codeData));
+}
+
+/**
+ * Get the stored access code data
+ * @returns {Object|null}
+ */
+function getStoredAccessCode() {
+    const stored = sessionStorage.getItem(ACCESS_CODE_KEY);
+    return stored ? JSON.parse(stored) : null;
+}
+
+/**
+ * Show the main website content and hide access gate
+ */
+function showMainContent() {
+    const accessGate = document.getElementById('accessGate');
+    const mainContent = document.getElementById('mainContent');
+    
+    if (accessGate) {
+        accessGate.style.display = 'none';
+    }
+    if (mainContent) {
+        mainContent.style.display = 'block';
+    }
+}
+
+/**
+ * Initialize the access gate system
+ */
+function initAccessGate() {
+    const accessGate = document.getElementById('accessGate');
+    const mainContent = document.getElementById('mainContent');
+    
+    // If no access gate exists (admin page), skip
+    if (!accessGate || !mainContent) {
+        return;
+    }
+    
+    // Check if user already has access
+    if (hasAccessCode()) {
+        // Restore the code data for RSVP form
+        const storedCode = getStoredAccessCode();
+        if (storedCode && window.RSVPModule) {
+            window.RSVPModule.setCurrentCode(storedCode);
+        }
+        showMainContent();
+        return;
+    }
+    
+    // Setup access code form handler
+    const accessForm = document.getElementById('accessCodeForm');
+    const accessCodeInput = document.getElementById('accessCode');
+    const accessCodeError = document.getElementById('accessCodeError');
+    
+    if (!accessForm) return;
+    
+    accessForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const code = accessCodeInput.value.trim();
+        
+        if (!code) {
+            if (accessCodeError) {
+                accessCodeError.textContent = 'Por favor, introduce tu código de invitación.';
+            }
+            accessCodeInput.classList.add('error');
+            return;
+        }
+
+        // Clear previous error
+        if (accessCodeError) {
+            accessCodeError.textContent = '';
+        }
+        accessCodeInput.classList.remove('error');
+
+        // Show loading state
+        const submitBtn = accessForm.querySelector('button[type="submit"]');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = 'Verificando...';
+        submitBtn.disabled = true;
+
+        try {
+            // Validate the code using the InvitationCodes module
+            const codeData = await window.InvitationCodes.validateCode(code);
+            
+            // Store the validated code for session
+            storeAccessCode(codeData);
+            
+            // Set code for RSVP module
+            if (window.RSVPModule) {
+                window.RSVPModule.setCurrentCode(codeData);
+            }
+            
+            // Show main content
+            showMainContent();
+            
+        } catch (error) {
+            if (accessCodeError) {
+                accessCodeError.textContent = error.message;
+            }
+            accessCodeInput.classList.add('error');
+        } finally {
+            submitBtn.textContent = originalBtnText;
+            submitBtn.disabled = false;
+        }
+    });
+
+    // Real-time uppercase conversion
+    if (accessCodeInput) {
+        accessCodeInput.addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+            if (this.value.trim()) {
+                clearError(this);
+            }
+        });
+    }
+}
+
 // ==================== INICIALIZACIÓN ====================
 
 /**
@@ -478,6 +627,7 @@ function initFirebase() {
  */
 function init() {
     initFirebase();
+    initAccessGate();
     initMobileNav();
     initSmoothScroll();
     initInvitationCodeVerification();
