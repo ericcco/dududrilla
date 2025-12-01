@@ -28,27 +28,9 @@
             <div class="admin-login__card">
                 <h2 class="admin-login__title">Acceso Administrador</h2>
                 <p class="admin-login__description">Introduce tus credenciales para acceder al panel</p>
-                
-                <!-- Tab buttons for auth method -->
-                <div class="admin-login__tabs">
-                    <button class="admin-login__tab active" data-tab="simple">Contraseña simple</button>
-                    <button class="admin-login__tab" data-tab="firebase">Firebase Auth</button>
-                </div>
 
-                <!-- Simple password form -->
-                <form id="simpleLoginForm" class="admin-login__form">
-                    <div class="form__group">
-                        <label for="simplePassword" class="form__label">Contraseña</label>
-                        <input type="password" id="simplePassword" class="form__input" placeholder="Introduce la contraseña" required>
-                    </div>
-                    <p class="admin-login__warning">
-                        ⚠️ Esta opción NO es segura para producción. La contraseña está almacenada en el código JavaScript.
-                    </p>
-                    <button type="submit" class="btn btn--primary btn--large">Acceder</button>
-                </form>
-
-                <!-- Firebase auth form (hidden by default) -->
-                <form id="firebaseLoginForm" class="admin-login__form" style="display: none;">
+                <!-- Firebase auth form -->
+                <form id="firebaseLoginForm" class="admin-login__form">
                     <div class="form__group">
                         <label for="firebaseEmail" class="form__label">Email</label>
                         <input type="email" id="firebaseEmail" class="form__input" placeholder="admin@email.com" required>
@@ -57,7 +39,7 @@
                         <label for="firebasePassword" class="form__label">Contraseña</label>
                         <input type="password" id="firebasePassword" class="form__input" placeholder="Tu contraseña" required>
                     </div>
-                    <button type="submit" class="btn btn--primary btn--large">Acceder con Firebase</button>
+                    <button type="submit" class="btn btn--primary btn--large">Acceder</button>
                 </form>
 
                 <p id="loginError" class="admin-login__error"></p>
@@ -187,11 +169,8 @@
             // Initialize Firebase
             const firebaseReady = window.FirebaseConfig.initialize();
             
-            // Setup authentication tabs
-            setupAuthTabs();
-            
-            // Setup login forms
-            setupLoginForms();
+            // Setup login form
+            setupLoginForm();
             
             // Setup dashboard navigation
             setupDashboardNav();
@@ -213,50 +192,11 @@
         });
 
         /**
-         * Setup authentication method tabs
+         * Setup login form handler
          */
-        function setupAuthTabs() {
-            const tabs = document.querySelectorAll('.admin-login__tab');
-            const simpleForm = document.getElementById('simpleLoginForm');
-            const firebaseForm = document.getElementById('firebaseLoginForm');
-
-            tabs.forEach(function(tab) {
-                tab.addEventListener('click', function() {
-                    tabs.forEach(function(t) { t.classList.remove('active'); });
-                    tab.classList.add('active');
-
-                    const tabName = tab.dataset.tab;
-                    if (tabName === 'simple') {
-                        simpleForm.style.display = 'block';
-                        firebaseForm.style.display = 'none';
-                    } else {
-                        simpleForm.style.display = 'none';
-                        firebaseForm.style.display = 'block';
-                    }
-                });
-            });
-        }
-
-        /**
-         * Setup login form handlers
-         */
-        function setupLoginForms() {
-            const simpleForm = document.getElementById('simpleLoginForm');
+        function setupLoginForm() {
             const firebaseForm = document.getElementById('firebaseLoginForm');
             const errorElement = document.getElementById('loginError');
-
-            // Simple password login
-            simpleForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const password = document.getElementById('simplePassword').value;
-                
-                if (window.AuthModule.simplePasswordLogin(password)) {
-                    errorElement.textContent = '';
-                    showDashboard();
-                } else {
-                    errorElement.textContent = 'Contraseña incorrecta.';
-                }
-            });
 
             // Firebase login
             firebaseForm.addEventListener('submit', async function(e) {

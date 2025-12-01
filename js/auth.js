@@ -2,59 +2,18 @@
    AUTHENTICATION MODULE
    Handles admin authentication
    
-   NOTE: This module provides two authentication options:
-   - Option A: Simple password (NOT secure for production, password stored in front-end)
-   - Option B: Firebase Authentication (preferred, more secure)
+   This module uses Firebase Authentication for secure admin login.
    ==================== */
 
 'use strict';
 
 /**
  * Authentication Module
- * Manages admin authentication
+ * Manages admin authentication via Firebase
  */
 window.AuthModule = (function() {
 
-    // ==================== OPTION A: SIMPLE PASSWORD ====================
-    // WARNING: This is NOT secure for production use!
-    // The password is stored in the front-end JavaScript and can be easily viewed.
-    // Use this only for testing or if you accept the security risk.
-    // For better security, use Option B (Firebase Authentication).
-    
-    const SIMPLE_PASSWORD = 'admin123'; // CHANGE THIS PASSWORD!
-    const ADMIN_KEY = 'wedding_admin_authenticated';
-
-    /**
-     * Authenticate using simple password
-     * WARNING: Not secure for production!
-     * @param {string} password - The password to check
-     * @returns {boolean}
-     */
-    function simplePasswordLogin(password) {
-        if (password === SIMPLE_PASSWORD) {
-            sessionStorage.setItem(ADMIN_KEY, 'true');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Check if authenticated with simple password
-     * @returns {boolean}
-     */
-    function isSimpleAuthenticated() {
-        return sessionStorage.getItem(ADMIN_KEY) === 'true';
-    }
-
-    /**
-     * Logout from simple authentication
-     */
-    function simpleLogout() {
-        sessionStorage.removeItem(ADMIN_KEY);
-    }
-
-    // ==================== OPTION B: FIREBASE AUTHENTICATION ====================
-    // Preferred method - uses Firebase Authentication with email/password
+    // ==================== FIREBASE AUTHENTICATION ====================
     
     /**
      * Login with Firebase email/password
@@ -139,39 +98,33 @@ window.AuthModule = (function() {
         return auth.onAuthStateChanged(callback);
     }
 
-    // ==================== COMBINED AUTH INTERFACE ====================
+    // ==================== AUTH INTERFACE ====================
 
     /**
-     * Check if user is authenticated (either method)
+     * Check if user is authenticated
      * @returns {boolean}
      */
     function isAuthenticated() {
-        return isSimpleAuthenticated() || isFirebaseAuthenticated();
+        return isFirebaseAuthenticated();
     }
 
     /**
-     * Logout from any authentication method
+     * Logout from Firebase
      */
     async function logout() {
-        simpleLogout();
         await firebaseLogout();
     }
 
     // Public API
     return {
-        // Simple password auth (not secure)
-        simplePasswordLogin: simplePasswordLogin,
-        isSimpleAuthenticated: isSimpleAuthenticated,
-        simpleLogout: simpleLogout,
-        
-        // Firebase auth (preferred)
+        // Firebase auth
         firebaseLogin: firebaseLogin,
         firebaseLogout: firebaseLogout,
         getCurrentUser: getCurrentUser,
         isFirebaseAuthenticated: isFirebaseAuthenticated,
         onAuthStateChanged: onAuthStateChanged,
         
-        // Combined interface
+        // Interface
         isAuthenticated: isAuthenticated,
         logout: logout
     };
