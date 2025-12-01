@@ -920,7 +920,497 @@ ul {
     }
 }
 
-/* Animaciones de entrada */
+/* ==================== INTRO SECTION ==================== */
+.section--intro {
+    background-color: var(--color-cream);
+    padding: var(--spacing-xl) 0;
+    min-height: auto;
+}
+
+.intro__container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.intro__illustration {
+    flex: 0 0 100px;
+    opacity: 0.8;
+}
+
+.intro__illustration svg {
+    width: 100%;
+    height: auto;
+}
+
+.intro__illustration--left {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.intro__illustration--right {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.intro__content {
+    flex: 1;
+    max-width: 500px;
+    text-align: center;
+}
+
+.intro__photo-frame {
+    width: 180px;
+    height: 220px;
+    margin: 0 auto var(--spacing-lg);
+    border: 3px solid var(--color-text);
+    padding: 6px;
+    background-color: var(--color-white);
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    transform: rotate(-2deg);
+}
+
+.intro__photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.intro__message {
+    font-family: var(--font-script);
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    font-weight: 400;
+}
+
+/* RSVP Button - Hand drawn style */
+.btn--rsvp {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background-color: transparent;
+    color: var(--color-red);
+    border: 2px solid var(--color-red);
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    position: relative;
+}
+
+.btn--rsvp:hover,
+.btn--rsvp:focus {
+    background-color: var(--color-red);
+    color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+/* ==================== PROGRAMA SECTION ==================== */
+.section--programa {
+    background-color: var(--color-cream);
+    padding: var(--spacing-xxl) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.section__title--script {
+    font-family: var(--font-script);
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xl);
+}
+
+.section__title--script::after {
+    display: none;
+}
+
+.programa__container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.programa__illustration {
+    flex: 0 0 80px;
+    opacity: 0.8;
+}
+
+.programa__illustration svg {
+    width: 100%;
+    height: auto;
+}
+
+.programa__content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.programa__day {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid rgba(74, 74, 74, 0.1);
+}
+
+.programa__day:last-child {
+    border-bottom: none;
+}
+
+.programa__day-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-sm);
+}
+
+.programa__day-title {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 4px;
+}
+
+.programa__day-title--highlight {
+    color: var(--color-red);
+}
+
+.programa__day-time {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+.programa__day-details {
+    padding-left: 0;
+}
+
+.programa__day-description {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.programa__day-note {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    line-height: 1.5;
+}
+
+/* Decorative stars */
+.programa__stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+}
+
+.star--1 {
+    top: 10%;
+    left: 5%;
+}
+
+.star--2 {
+    top: 50%;
+    right: 10%;
+    width: 15px;
+    height: 15px;
+}
+
+.star--3 {
+    bottom: 20%;
+    left: 15%;
+    width: 12px;
+    height: 12px;
+}
+
+/* ==================== ALOJAMIENTO SECTION ==================== */
+.section--alojamiento {
+    background-color: var(--color-cream);
+    padding: var(--spacing-xl) 0;
+    min-height: auto;
+}
+
+.alojamiento__header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.alojamiento__discount {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.alojamiento__container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.alojamiento__content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.alojamiento__hotel {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.alojamiento__hotel-name {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-text);
+    text-decoration: underline;
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    transition: color var(--transition-fast);
+}
+
+.alojamiento__hotel-name:hover {
+    color: var(--color-red);
+}
+
+.alojamiento__hotel-address {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+}
+
+.alojamiento__illustration {
+    flex: 0 0 150px;
+}
+
+.alojamiento__illustration svg {
+    width: 100%;
+    height: auto;
+}
+
+/* ==================== OTRAS PREGUNTAS SECTION ==================== */
+.section--preguntas {
+    background-color: var(--color-cream);
+    padding: var(--spacing-lg) 0;
+    min-height: auto;
+}
+
+.preguntas__content {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.preguntas__text {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+}
+
+/* ==================== CONTACTO SECTION ==================== */
+.section--contacto {
+    background-color: var(--color-cream);
+    padding: var(--spacing-xxl) 0;
+    min-height: auto;
+}
+
+.contacto__illustration {
+    max-width: 450px;
+    margin: 0 auto var(--spacing-xl);
+}
+
+.contacto__illustration svg {
+    width: 100%;
+    height: auto;
+}
+
+.contacto__info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-xl);
+}
+
+.contacto__item {
+    text-align: center;
+}
+
+.contacto__name {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--color-text);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.contacto__phone {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--color-text-light);
+}
+
+.contacto__email {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    text-decoration: underline;
+    transition: color var(--transition-fast);
+}
+
+.contacto__email:hover {
+    color: var(--color-red);
+}
+
+.contacto__rsvp {
+    text-align: center;
+}
+
+/* ==================== SCROLL REVEAL ANIMATIONS ==================== */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.scroll-reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Staggered animation for child elements */
+.scroll-reveal .programa__day,
+.scroll-reveal .alojamiento__hotel {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.scroll-reveal.revealed .programa__day,
+.scroll-reveal.revealed .alojamiento__hotel {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.scroll-reveal.revealed .programa__day:nth-child(1),
+.scroll-reveal.revealed .alojamiento__hotel:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.scroll-reveal.revealed .programa__day:nth-child(2),
+.scroll-reveal.revealed .alojamiento__hotel:nth-child(2) {
+    transition-delay: 0.2s;
+}
+
+.scroll-reveal.revealed .programa__day:nth-child(3),
+.scroll-reveal.revealed .alojamiento__hotel:nth-child(3) {
+    transition-delay: 0.3s;
+}
+
+.scroll-reveal.revealed .alojamiento__hotel:nth-child(4) {
+    transition-delay: 0.4s;
+}
+
+/* Responsive styles for new sections */
+@media (max-width: 767px) {
+    .intro__container {
+        flex-direction: column;
+        padding: 0 var(--spacing-md);
+    }
+    
+    .intro__illustration {
+        display: none;
+    }
+    
+    .intro__message {
+        font-size: 1.2rem;
+    }
+    
+    .programa__container {
+        flex-direction: column;
+        padding: 0 var(--spacing-md);
+    }
+    
+    .programa__illustration {
+        display: none;
+    }
+    
+    .section__title--script {
+        font-size: 2.5rem;
+    }
+    
+    .programa__day-header {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .alojamiento__container {
+        flex-direction: column;
+        padding: 0 var(--spacing-md);
+    }
+    
+    .alojamiento__illustration {
+        display: none;
+    }
+    
+    .contacto__info {
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .contacto__illustration {
+        max-width: 300px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .intro__illustration {
+        flex: 0 0 80px;
+    }
+    
+    .programa__illustration {
+        flex: 0 0 60px;
+    }
+    
+    .alojamiento__illustration {
+        flex: 0 0 120px;
+    }
+}
+
+/* ==================== ANIMACIONES DE ENTRADA ==================== */
 @keyframes fadeInUp {
     from {
         opacity: 0;

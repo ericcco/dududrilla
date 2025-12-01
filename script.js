@@ -801,6 +801,50 @@ function initCountdown() {
     countdownIntervalId = setInterval(updateCountdown, 1000);
 }
 
+// ==================== SCROLL REVEAL ANIMATIONS ====================
+
+/**
+ * Observer for scroll reveal animations
+ */
+let scrollObserver = null;
+
+/**
+ * Initialize scroll reveal animations using Intersection Observer
+ */
+function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    
+    if (revealElements.length === 0) return;
+
+    // Check if IntersectionObserver is supported
+    if (!('IntersectionObserver' in window)) {
+        // Fallback: just show all elements
+        revealElements.forEach(function(el) {
+            el.classList.add('revealed');
+        });
+        return;
+    }
+
+    // Create observer
+    scrollObserver = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('revealed');
+                // Stop observing to allow re-animation on scroll back
+                scrollObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    });
+
+    // Observe all reveal elements
+    revealElements.forEach(function(el) {
+        scrollObserver.observe(el);
+    });
+}
+
 // ==================== INICIALIZACIÓN ====================
 
 /**
@@ -816,6 +860,7 @@ function init() {
     initHeaderScroll();
     initActiveNavHighlight();
     initCountdown();
+    initScrollReveal();
 }
 
 // Ejecutar cuando el DOM esté completamente cargado
