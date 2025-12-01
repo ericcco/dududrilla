@@ -1,1 +1,15 @@
-# Image Directory\n\nThis directory is for illustration assets.\n\nSuggested illustrations:\n- candles.png - decorative candle illustrations\n- wine.png - wine bottle illustration\n- glasses.png - champagne glasses\n- stars.png - decorative stars\n- plane.png - airplane illustration for gift section
+# Image Directory
+
+This directory is for illustration assets.
+
+## Suggested illustrations
+
+- candles.png - decorative candle illustrations
+- wine.png - wine bottle illustration
+- glasses.png - champagne glasses
+- stars.png - decorative stars
+- plane.png - airplane illustration for gift section
+
+## Usage
+
+Add PNG or SVG files to this directory and reference them in the HTML using the `.illustration` CSS classes defined in styles.css.
