@@ -292,6 +292,19 @@ ul {
     align-items: center;
 }
 
+/* Hero image container */
+.hero__image-container {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto var(--spacing-lg);
+}
+
+.hero__image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
 /* Main title container with DUDU PARTY and date badge */
 .hero__main-title {
     display: flex;
