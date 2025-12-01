@@ -38,6 +38,37 @@ window.RSVPModule = (function() {
     }
 
     /**
+     * Check if an RSVP already exists for a given invitation code
+     * @param {string} code - The invitation code to check
+     * @returns {Promise<boolean>} - True if an RSVP exists for this code
+     */
+    async function checkExistingRSVP(code) {
+        const db = window.FirebaseConfig.getFirestore();
+
+        if (!db) {
+            throw new Error('Firebase no está inicializado.');
+        }
+
+        if (!code || typeof code !== 'string' || code.trim() === '') {
+            return false;
+        }
+
+        const normalizedCode = code.trim().toUpperCase();
+
+        try {
+            const querySnapshot = await db.collection('rsvps')
+                .where('code', '==', normalizedCode)
+                .limit(1)
+                .get();
+
+            return !querySnapshot.empty;
+        } catch (error) {
+            console.error('Error checking existing RSVP:', error);
+            return false;
+        }
+    }
+
+    /**
      * Submit RSVP to Firestore
      * @param {Object} formData - The form data to submit
      * @returns {Promise<Object>} - The created RSVP document
@@ -64,6 +95,12 @@ window.RSVPModule = (function() {
 
         if (!formData.attendance) {
             throw new Error('Por favor, indica si asistirás.');
+        }
+
+        // Re-check that no RSVP exists for this code before submission (prevent double submission)
+        const existingRSVP = await checkExistingRSVP(currentInvitationCode.code);
+        if (existingRSVP) {
+            throw new Error('Ya has enviado tu confirmación anteriormente. No puedes enviar otra vez.');
         }
 
         // Calculate total guests (attendee + companions)
@@ -106,6 +143,9 @@ window.RSVPModule = (function() {
             // Commit the batch
             await batch.commit();
 
+            // Store submission status in sessionStorage
+            sessionStorage.setItem('rsvpSubmitted', '1');
+
             // Clear the current invitation code after successful submission
             clearCurrentCode();
 
@@ -117,6 +157,10 @@ window.RSVPModule = (function() {
 
         } catch (error) {
             console.error('Error submitting RSVP:', error);
+            // Re-throw if it's our custom error
+            if (error.message.includes('Ya has enviado')) {
+                throw error;
+            }
             throw new Error('Error al enviar tu confirmación. Por favor, inténtalo de nuevo.');
         }
     }
@@ -203,6 +247,7 @@ window.RSVPModule = (function() {
         setCurrentCode: setCurrentCode,
         getCurrentCode: getCurrentCode,
         clearCurrentCode: clearCurrentCode,
+        checkExistingRSVP: checkExistingRSVP,
         submitRSVP: submitRSVP,
         getAllRSVPs: getAllRSVPs,
         deleteRSVP: deleteRSVP
