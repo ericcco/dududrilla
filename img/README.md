@@ -1,0 +1,1 @@
+# Image Directory\n\nThis directory is for illustration assets.\n\nSuggested illustrations:\n- candles.png - decorative candle illustrations\n- wine.png - wine bottle illustration\n- glasses.png - champagne glasses\n- stars.png - decorative stars\n- plane.png - airplane illustration for gift section
