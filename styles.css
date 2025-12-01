@@ -6,8 +6,9 @@
 /* ==================== VARIABLES CSS ==================== */
 :root {
     /* Colores principales - EDITAR AQUÍ PARA CAMBIAR LA PALETA */
-    --color-cream: #FAF8F5;
-    --color-cream-dark: #F5F0E8;
+    /* Updated warm cream palette to match hero image background */
+    --color-cream: #fdf3e7;
+    --color-cream-dark: #f5e8d8;
     --color-pink: #E8D5D5;
     --color-pink-pale: #F2E5E5;
     --color-gold: #C9A96E;
@@ -133,7 +134,7 @@ ul {
     left: 0;
     width: 0;
     height: 1px;
-    background-color: var(--color-gold);
+    background-color: var(--color-red);
     transition: width var(--transition-normal);
 }
 
@@ -144,7 +145,7 @@ ul {
 
 .nav__link:hover,
 .nav__link:focus {
-    color: var(--color-gold);
+    color: var(--color-red);
 }
 
 /* Botón hamburguesa */
@@ -184,7 +185,7 @@ ul {
     font-family: var(--font-serif);
     font-size: 2.5rem;
     font-weight: 500;
-    color: var(--color-text);
+    color: var(--color-red);
     text-align: center;
     margin-bottom: var(--spacing-lg);
     position: relative;
@@ -195,7 +196,7 @@ ul {
     display: block;
     width: 60px;
     height: 2px;
-    background: linear-gradient(90deg, var(--color-gold), var(--color-gold-soft));
+    background: linear-gradient(90deg, var(--color-red), var(--color-red-dark));
     margin: var(--spacing-sm) auto 0;
 }
 
@@ -223,37 +224,40 @@ ul {
     letter-spacing: 0.1em;
     text-transform: uppercase;
     padding: var(--spacing-sm) var(--spacing-lg);
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
+    border: 2px solid transparent;
+    border-radius: 50px;
     cursor: pointer;
     transition: all var(--transition-normal);
     text-align: center;
+    /* Hand-drawn feel with subtle shadow */
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
 .btn--primary {
-    background-color: var(--color-gold);
-    color: var(--color-white);
-    border-color: var(--color-gold);
+    background-color: var(--color-cream);
+    color: var(--color-red);
+    border-color: var(--color-red);
 }
 
 .btn--primary:hover,
 .btn--primary:focus {
-    background-color: var(--color-gold-soft);
-    border-color: var(--color-gold-soft);
+    background-color: var(--color-red);
+    color: var(--color-cream);
+    border-color: var(--color-red);
     transform: translateY(-2px);
-    box-shadow: var(--shadow-medium);
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1);
 }
 
 .btn--secondary {
     background-color: transparent;
-    color: var(--color-gold);
-    border-color: var(--color-gold);
+    color: var(--color-red);
+    border-color: var(--color-red);
 }
 
 .btn--secondary:hover,
 .btn--secondary:focus {
-    background-color: var(--color-gold);
-    color: var(--color-white);
+    background-color: var(--color-red);
+    color: var(--color-cream);
 }
 
 .btn--outline {
@@ -264,13 +268,14 @@ ul {
 
 .btn--outline:hover,
 .btn--outline:focus {
-    border-color: var(--color-gold);
-    color: var(--color-gold);
+    border-color: var(--color-red);
+    color: var(--color-red);
 }
 
 .btn--large {
     padding: var(--spacing-md) var(--spacing-xl);
     font-size: 0.9rem;
+    border-radius: 50px;
 }
 
 /* ==================== HERO / SAVE THE DATE ==================== */
@@ -292,17 +297,22 @@ ul {
     align-items: center;
 }
 
-/* Hero image container */
+/* Hero image container - styled to blend with background */
 .hero__image-container {
     width: 100%;
     max-width: 900px;
     margin: 0 auto var(--spacing-lg);
+    background-color: var(--color-cream);
+    border-radius: var(--radius-md);
 }
 
 .hero__image {
     width: 100%;
     height: auto;
     display: block;
+    /* Mix-blend-mode helps integrate image with background */
+    mix-blend-mode: multiply;
+    border-radius: var(--radius-md);
 }
 
 .hero__buttons {
@@ -330,13 +340,14 @@ ul {
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-soft);
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .countdown__value {
     font-family: var(--font-serif);
     font-size: 2rem;
     font-weight: 600;
-    color: var(--color-gold);
+    color: var(--color-red);
     line-height: 1.2;
 }
 
@@ -394,7 +405,7 @@ ul {
     font-family: var(--font-serif);
     font-size: 1.5rem;
     font-weight: 500;
-    color: var(--color-gold);
+    color: var(--color-red);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -510,6 +521,61 @@ ul {
     letter-spacing: 0.05em;
 }
 
+/* ==================== ILLUSTRATION PLACEHOLDERS ==================== */
+/* CSS classes for decorative illustrations that can be added as PNG/SVG */
+
+.illustration {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.illustration--left {
+    left: var(--spacing-md);
+}
+
+.illustration--right {
+    right: var(--spacing-md);
+}
+
+.illustration--candles {
+    width: 80px;
+    height: auto;
+}
+
+.illustration--wine {
+    width: 60px;
+    height: auto;
+}
+
+.illustration--glasses {
+    width: 70px;
+    height: auto;
+}
+
+.illustration--stars {
+    width: 50px;
+    height: auto;
+}
+
+.illustration--plane {
+    width: 100px;
+    height: auto;
+}
+
+/* Container for sections that need illustration borders */
+.section--illustrated {
+    position: relative;
+    overflow: visible;
+}
+
+/* Hide illustrations on small screens to avoid blocking content */
+@media (max-width: 1024px) {
+    .illustration {
+        display: none;
+    }
+}
+
 /* ==================== FORMULARIO RSVP ==================== */
 .section--rsvp {
     background: linear-gradient(180deg, var(--color-cream-dark) 0%, var(--color-cream) 100%);
@@ -544,7 +610,7 @@ ul {
 }
 
 .form__required {
-    color: var(--color-gold);
+    color: var(--color-red);
 }
 
 .form__input,
@@ -563,8 +629,8 @@ ul {
 .form__input:focus,
 .form__textarea:focus {
     outline: none;
-    border-color: var(--color-gold);
-    box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.2);
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 3px rgba(232, 75, 48, 0.2);
 }
 
 .form__input::placeholder,
@@ -613,11 +679,12 @@ ul {
 .form__radio-custom {
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-gold-soft);
+    border: 2px solid var(--color-red);
     border-radius: 50%;
     margin-right: var(--spacing-xs);
     position: relative;
     transition: border-color var(--transition-fast);
+    opacity: 0.6;
 }
 
 .form__radio-custom::after {
@@ -628,13 +695,14 @@ ul {
     transform: translate(-50%, -50%) scale(0);
     width: 10px;
     height: 10px;
-    background-color: var(--color-gold);
+    background-color: var(--color-red);
     border-radius: 50%;
     transition: transform var(--transition-fast);
 }
 
 .form__radio input[type="radio"]:checked + .form__radio-custom {
-    border-color: var(--color-gold);
+    border-color: var(--color-red);
+    opacity: 1;
 }
 
 .form__radio input[type="radio"]:checked + .form__radio-custom::after {
@@ -642,7 +710,7 @@ ul {
 }
 
 .form__radio input[type="radio"]:focus + .form__radio-custom {
-    box-shadow: 0 0 0 3px rgba(201, 169, 110, 0.2);
+    box-shadow: 0 0 0 3px rgba(232, 75, 48, 0.2);
 }
 
 .form__radio-label {
@@ -674,7 +742,7 @@ ul {
     font-family: var(--font-serif);
     font-size: 1.8rem;
     font-weight: 500;
-    color: var(--color-gold);
+    color: var(--color-red);
     margin-bottom: var(--spacing-sm);
 }
 
@@ -882,7 +950,7 @@ ul {
 
 /* Focus visible para accesibilidad */
 *:focus-visible {
-    outline: 2px solid var(--color-gold);
+    outline: 2px solid var(--color-red);
     outline-offset: 2px;
 }
 
@@ -1083,7 +1151,7 @@ ul {
     font-family: var(--font-serif);
     font-size: 1.3rem;
     font-style: italic;
-    color: var(--color-gold);
+    color: var(--color-red);
 }
 
 .admin-header__title {
@@ -1158,8 +1226,8 @@ ul {
 }
 
 .admin-login__tab.active {
-    color: var(--color-gold);
-    border-bottom-color: var(--color-gold);
+    color: var(--color-red);
+    border-bottom-color: var(--color-red);
 }
 
 .admin-login__form {
@@ -1212,13 +1280,13 @@ ul {
 }
 
 .admin-nav__item:hover {
-    border-color: var(--color-gold);
-    color: var(--color-gold);
+    border-color: var(--color-red);
+    color: var(--color-red);
 }
 
 .admin-nav__item.active {
-    background-color: var(--color-gold);
-    border-color: var(--color-gold);
+    background-color: var(--color-red);
+    border-color: var(--color-red);
     color: var(--color-white);
 }
 
@@ -1429,7 +1497,7 @@ ul {
 
 .chart__bar {
     height: 24px;
-    background: linear-gradient(90deg, var(--color-gold), var(--color-gold-soft));
+    background: linear-gradient(90deg, var(--color-red), var(--color-red-dark));
     border-radius: var(--radius-sm);
     min-width: 4px;
     transition: width var(--transition-normal);
@@ -1552,11 +1620,12 @@ ul {
 .form__checkbox-custom {
     width: 20px;
     height: 20px;
-    border: 2px solid var(--color-gold-soft);
+    border: 2px solid var(--color-red);
     border-radius: var(--radius-sm);
     margin-right: var(--spacing-sm);
     position: relative;
     transition: border-color var(--transition-fast);
+    opacity: 0.6;
 }
 
 .form__checkbox-custom::after {
@@ -1566,12 +1635,13 @@ ul {
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
     font-size: 0.8rem;
-    color: var(--color-gold);
+    color: var(--color-red);
     transition: transform var(--transition-fast);
 }
 
 .form__checkbox input[type="checkbox"]:checked + .form__checkbox-custom {
-    border-color: var(--color-gold);
+    border-color: var(--color-red);
+    opacity: 1;
 }
 
 .form__checkbox input[type="checkbox"]:checked + .form__checkbox-custom::after {
@@ -1650,7 +1720,7 @@ ul {
 }
 
 .notification--info {
-    background-color: var(--color-gold);
+    background-color: var(--color-red);
     color: var(--color-white);
 }
 
