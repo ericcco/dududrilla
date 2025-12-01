@@ -12,11 +12,11 @@
 window.InvitationCodes = (function() {
     
     /**
-     * Validate an invitation code
+     * Fetch and validate basic code data from Firestore
      * @param {string} code - The invitation code to validate
      * @returns {Promise<Object>} - Returns code data if valid, throws error if invalid
      */
-    async function validateCode(code) {
+    async function fetchCodeData(code) {
         const db = window.FirebaseConfig.getFirestore();
         
         if (!db) {
@@ -48,22 +48,16 @@ window.InvitationCodes = (function() {
                 throw new Error('Este código de invitación ya no está activo.');
             }
 
-            // Check if max guests has been reached
             const usedGuests = codeData.usedGuests || 0;
             const maxGuests = codeData.maxGuests || 1;
-            
-            if (usedGuests >= maxGuests) {
-                throw new Error('Este código de invitación ya ha alcanzado el máximo de invitados permitidos.');
-            }
 
-            // Return the code data with remaining guests
             return {
                 id: doc.id,
                 code: codeData.code,
                 assignedTo: codeData.assignedTo,
                 maxGuests: maxGuests,
                 usedGuests: usedGuests,
-                remainingGuests: maxGuests - usedGuests,
+                remainingGuests: Math.max(0, maxGuests - usedGuests),
                 isActive: codeData.isActive
             };
 
@@ -74,6 +68,32 @@ window.InvitationCodes = (function() {
             console.error('Error validating invitation code:', error);
             throw new Error('Error al validar el código. Por favor, inténtalo de nuevo.');
         }
+    }
+
+    /**
+     * Validate an invitation code (checks remaining guests)
+     * @param {string} code - The invitation code to validate
+     * @returns {Promise<Object>} - Returns code data if valid, throws error if invalid
+     */
+    async function validateCode(code) {
+        const codeData = await fetchCodeData(code);
+        
+        // Check if max guests has been reached
+        if (codeData.remainingGuests <= 0) {
+            throw new Error('Este código de invitación ya ha alcanzado el máximo de invitados permitidos.');
+        }
+
+        return codeData;
+    }
+
+    /**
+     * Validate an invitation code for access gate (doesn't check remaining guests)
+     * This allows users to access the website even if their code has reached max guests
+     * @param {string} code - The invitation code to validate
+     * @returns {Promise<Object>} - Returns code data if valid, throws error if invalid
+     */
+    async function validateCodeForAccess(code) {
+        return await fetchCodeData(code);
     }
 
     /**
@@ -132,6 +152,7 @@ window.InvitationCodes = (function() {
     // Public API
     return {
         validateCode: validateCode,
+        validateCodeForAccess: validateCodeForAccess,
         getCodeById: getCodeById,
         incrementUsedGuests: incrementUsedGuests
     };
