@@ -725,6 +725,82 @@ async function initAccessGate() {
     }
 }
 
+// ==================== COUNTDOWN TIMER ====================
+
+/**
+ * Wedding date - June 27, 2026 at midnight in Spain (Europe/Madrid timezone)
+ * Using explicit timezone offset for summer time (+02:00)
+ */
+const WEDDING_DATE = new Date('2026-06-27T00:00:00+02:00');
+
+/**
+ * Countdown interval ID for cleanup
+ */
+let countdownIntervalId = null;
+
+/**
+ * Update the countdown timer display
+ */
+function updateCountdown() {
+    const now = new Date();
+    const diff = WEDDING_DATE - now;
+
+    // If the wedding date has passed, show zeros and clear interval
+    if (diff <= 0) {
+        document.getElementById('countdown-days').textContent = '0';
+        document.getElementById('countdown-hours').textContent = '0';
+        document.getElementById('countdown-minutes').textContent = '0';
+        document.getElementById('countdown-seconds').textContent = '0';
+        if (countdownIntervalId) {
+            clearInterval(countdownIntervalId);
+            countdownIntervalId = null;
+        }
+        return;
+    }
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+    const daysEl = document.getElementById('countdown-days');
+    const hoursEl = document.getElementById('countdown-hours');
+    const minutesEl = document.getElementById('countdown-minutes');
+    const secondsEl = document.getElementById('countdown-seconds');
+
+    if (daysEl) {
+        daysEl.textContent = days;
+    }
+    if (hoursEl) {
+        hoursEl.textContent = hours;
+    }
+    if (minutesEl) {
+        minutesEl.textContent = minutes;
+    }
+    if (secondsEl) {
+        secondsEl.textContent = seconds;
+    }
+}
+
+/**
+ * Initialize the countdown timer
+ */
+function initCountdown() {
+    const countdown = document.getElementById('countdown');
+    if (!countdown) return;
+
+    // Clear any existing interval to prevent memory leaks
+    if (countdownIntervalId) {
+        clearInterval(countdownIntervalId);
+    }
+
+    // Update immediately
+    updateCountdown();
+
+    // Update every second
+    countdownIntervalId = setInterval(updateCountdown, 1000);
+}
+
 // ==================== INICIALIZACIÓN ====================
 
 /**
@@ -739,6 +815,7 @@ function init() {
     initRSVPForm();
     initHeaderScroll();
     initActiveNavHighlight();
+    initCountdown();
 }
 
 // Ejecutar cuando el DOM esté completamente cargado
