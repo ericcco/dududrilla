@@ -1409,6 +1409,8 @@ ul {
         flex: 0 0 120px;
     }
 }
+
+/* ==================== ANIMACIONES DE ENTRADA ==================== */
 @keyframes fadeInUp {
     from {
         opacity: 0;

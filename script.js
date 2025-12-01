@@ -830,8 +830,8 @@ function initScrollReveal() {
         entries.forEach(function(entry) {
             if (entry.isIntersecting) {
                 entry.target.classList.add('revealed');
-                // Optional: stop observing once revealed
-                // scrollObserver.unobserve(entry.target);
+                // Stop observing to allow re-animation on scroll back
+                scrollObserver.unobserve(entry.target);
             }
         });
     }, {
