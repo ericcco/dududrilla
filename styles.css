@@ -292,98 +292,17 @@ ul {
     align-items: center;
 }
 
-/* Main title container with DUDU PARTY and date badge */
-.hero__main-title {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-}
-
-.hero__dudu {
-    font-family: var(--font-display);
-    font-size: 6rem;
-    font-weight: 400;
-    color: var(--color-red);
-    line-height: 0.9;
-    letter-spacing: 0.02em;
-    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
-    margin: 0;
-}
-
-.hero__date-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-sm) var(--spacing-md);
-    border: 2px solid var(--color-text);
-    border-radius: 50%;
-    transform: rotate(-5deg);
-    margin-top: var(--spacing-md);
-}
-
-.hero__date-badge span {
-    font-family: var(--font-script);
-    font-size: 1.5rem;
-    color: var(--color-text);
-    font-weight: 500;
-}
-
-/* Names in script font */
-.hero__names {
-    font-family: var(--font-script);
-    font-size: 3.5rem;
-    font-weight: 600;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-lg);
-    line-height: 1.2;
-}
-
-.hero__ampersand {
-    color: var(--color-text);
-    margin: 0 var(--spacing-xs);
-}
-
-/* Illustration */
-.hero__illustration {
+/* Hero image container */
+.hero__image-container {
     width: 100%;
-    max-width: 400px;
-    margin: var(--spacing-md) auto var(--spacing-xl);
+    max-width: 900px;
+    margin: 0 auto var(--spacing-lg);
 }
 
-.hero__hands-svg {
+.hero__image {
     width: 100%;
     height: auto;
-}
-
-/* Keep existing hero styles that are still used */
-.hero__title {
-    font-family: var(--font-serif);
-    font-size: 3.5rem;
-    font-weight: 400;
-    font-style: italic;
-    color: var(--color-text);
-    line-height: 1.2;
-    margin-bottom: var(--spacing-md);
-}
-
-.hero__subtitle {
-    font-family: var(--font-sans);
-    font-size: 1rem;
-    font-weight: 400;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--color-gold);
-    margin-bottom: var(--spacing-md);
-}
-
-.hero__date {
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    font-weight: 400;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-xl);
+    display: block;
 }
 
 .hero__buttons {
@@ -391,27 +310,6 @@ ul {
     justify-content: center;
     gap: var(--spacing-md);
     flex-wrap: wrap;
-}
-
-/* Bottom corner info */
-.hero__bottom-info {
-    position: absolute;
-    bottom: var(--spacing-lg);
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 var(--spacing-lg);
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    color: var(--color-text);
-    text-transform: uppercase;
-}
-
-.hero__bottom-date,
-.hero__bottom-location {
-    max-width: 45%;
 }
 
 /* ==================== COUNTDOWN TIMER ==================== */
@@ -811,30 +709,6 @@ ul {
         font-size: 3rem;
     }
     
-    .hero__dudu {
-        font-size: 8rem;
-    }
-    
-    .hero__names {
-        font-size: 4rem;
-    }
-    
-    .hero__date-badge span {
-        font-size: 1.8rem;
-    }
-    
-    .hero__title {
-        font-size: 5rem;
-    }
-    
-    .hero__ampersand {
-        font-size: 3rem;
-    }
-    
-    .hero__date {
-        font-size: 1.8rem;
-    }
-    
     .location__grid {
         grid-template-columns: 1fr 1fr;
     }
@@ -851,32 +725,6 @@ ul {
 
 /* Escritorio */
 @media (min-width: 1024px) {
-    .hero__dudu {
-        font-size: 10rem;
-    }
-    
-    .hero__names {
-        font-size: 5rem;
-    }
-    
-    .hero__date-badge {
-        padding: var(--spacing-md) var(--spacing-lg);
-    }
-    
-    .hero__date-badge span {
-        font-size: 2rem;
-    }
-    
-    .hero__title {
-        font-size: 6rem;
-    }
-    
-    .hero__ampersand {
-        display: inline;
-        font-size: inherit;
-        margin: 0 var(--spacing-sm);
-    }
-    
     .hero__decoration {
         width: 400px;
         height: 400px;
@@ -943,49 +791,6 @@ ul {
     .section--hero {
         min-height: 100vh;
         padding-top: calc(var(--spacing-xl) + 80px);
-    }
-    
-    .hero__main-title {
-        flex-direction: column;
-        align-items: center;
-        gap: var(--spacing-sm);
-    }
-    
-    .hero__dudu {
-        font-size: 4rem;
-    }
-    
-    .hero__date-badge {
-        margin-top: 0;
-        transform: rotate(-3deg);
-    }
-    
-    .hero__date-badge span {
-        font-size: 1.2rem;
-    }
-    
-    .hero__names {
-        font-size: 2.5rem;
-    }
-    
-    .hero__illustration {
-        max-width: 300px;
-    }
-    
-    .hero__bottom-info {
-        flex-direction: column;
-        align-items: center;
-        gap: var(--spacing-sm);
-        text-align: center;
-    }
-    
-    .hero__bottom-date,
-    .hero__bottom-location {
-        max-width: 100%;
-    }
-    
-    .hero__title {
-        font-size: 2.5rem;
     }
     
     .hero__buttons {
