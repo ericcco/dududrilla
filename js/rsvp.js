@@ -84,6 +84,13 @@ window.RSVPModule = (function() {
             throw new Error('No hay un código de invitación válido. Por favor, introduce tu código primero.');
         }
 
+        // Check that no RSVP exists for this code before submission (prevent double submission)
+        // This is done early to avoid wasting time validating form data
+        const existingRSVP = await checkExistingRSVP(currentInvitationCode.code);
+        if (existingRSVP) {
+            throw new Error('Ya has enviado tu confirmación anteriormente. No puedes enviar otra vez.');
+        }
+
         // Validate required fields
         if (!formData.name || formData.name.trim() === '') {
             throw new Error('Por favor, introduce tu nombre completo.');
@@ -95,12 +102,6 @@ window.RSVPModule = (function() {
 
         if (!formData.attendance) {
             throw new Error('Por favor, indica si asistirás.');
-        }
-
-        // Re-check that no RSVP exists for this code before submission (prevent double submission)
-        const existingRSVP = await checkExistingRSVP(currentInvitationCode.code);
-        if (existingRSVP) {
-            throw new Error('Ya has enviado tu confirmación anteriormente. No puedes enviar otra vez.');
         }
 
         // Calculate total guests (attendee + companions)
