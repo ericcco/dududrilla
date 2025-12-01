@@ -73,7 +73,7 @@ This is a static website with no build process required.
 
 ### Testing
 
-- Test responsive design at various breakpoints (mobile: <768px, tablet: 768px-1023px, desktop: ≥1024px)
+- Test responsive design at various breakpoints (mobile: < 768px, tablet: 768px-1023px, desktop: ≥ 1024px)
 - Verify form validation works correctly
 - Check navigation and smooth scrolling behavior
 - Test on multiple browsers (Chrome, Firefox, Safari)
