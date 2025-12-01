@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Panel de administración - Boda de Sandra y Eduard">
+    <meta name="robots" content="noindex, nofollow">
+    <title>Admin - Sandra & Eduard</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="admin-body">
+    <!-- ==================== HEADER ==================== -->
+    <header class="admin-header">
+        <div class="admin-header__content">
+            <a href="index.html" class="admin-header__logo">Sandra & Eduard</a>
+            <h1 class="admin-header__title">Panel de Administración</h1>
+            <button id="logoutBtn" class="btn btn--outline btn--small" style="display: none;">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <main class="admin-main">
+        <!-- ==================== LOGIN SECTION ==================== -->
+        <section id="loginSection" class="admin-login">
+            <div class="admin-login__card">
+                <h2 class="admin-login__title">Acceso Administrador</h2>
+                <p class="admin-login__description">Introduce tus credenciales para acceder al panel</p>
+                
+                <!-- Tab buttons for auth method -->
+                <div class="admin-login__tabs">
+                    <button class="admin-login__tab active" data-tab="simple">Contraseña simple</button>
+                    <button class="admin-login__tab" data-tab="firebase">Firebase Auth</button>
+                </div>
+
+                <!-- Simple password form -->
+                <form id="simpleLoginForm" class="admin-login__form">
+                    <div class="form__group">
+                        <label for="simplePassword" class="form__label">Contraseña</label>
+                        <input type="password" id="simplePassword" class="form__input" placeholder="Introduce la contraseña" required>
+                    </div>
+                    <p class="admin-login__warning">
+                        ⚠️ Esta opción NO es segura para producción. La contraseña está almacenada en el código JavaScript.
+                    </p>
+                    <button type="submit" class="btn btn--primary btn--large">Acceder</button>
+                </form>
+
+                <!-- Firebase auth form (hidden by default) -->
+                <form id="firebaseLoginForm" class="admin-login__form" style="display: none;">
+                    <div class="form__group">
+                        <label for="firebaseEmail" class="form__label">Email</label>
+                        <input type="email" id="firebaseEmail" class="form__input" placeholder="admin@email.com" required>
+                    </div>
+                    <div class="form__group">
+                        <label for="firebasePassword" class="form__label">Contraseña</label>
+                        <input type="password" id="firebasePassword" class="form__input" placeholder="Tu contraseña" required>
+                    </div>
+                    <button type="submit" class="btn btn--primary btn--large">Acceder con Firebase</button>
+                </form>
+
+                <p id="loginError" class="admin-login__error"></p>
+            </div>
+        </section>
+
+        <!-- ==================== DASHBOARD SECTION ==================== -->
+        <section id="dashboardSection" class="admin-dashboard" style="display: none;">
+            <div class="container">
+                <!-- Navigation tabs -->
+                <nav class="admin-nav">
+                    <button class="admin-nav__item active" data-section="overview">📊 Resumen</button>
+                    <button class="admin-nav__item" data-section="rsvps">📨 Confirmaciones</button>
+                    <button class="admin-nav__item" data-section="codes">🎫 Códigos</button>
+                </nav>
+
+                <!-- Overview Section -->
+                <div id="overviewSection" class="admin-section">
+                    <h2 class="admin__title">Resumen General</h2>
+                    <div id="statsContainer">
+                        <p class="admin__loading">Cargando estadísticas...</p>
+                    </div>
+                    
+                    <div id="chartContainer" class="admin__chart-section">
+                        <!-- Chart will be rendered here -->
+                    </div>
+                </div>
+
+                <!-- RSVPs Section -->
+                <div id="rsvpsSection" class="admin-section" style="display: none;">
+                    <div class="admin__header-row">
+                        <h2 class="admin__title">Confirmaciones de Asistencia</h2>
+                        <button class="btn btn--outline" onclick="AdminDashboard.refreshRSVPsTable()">
+                            🔄 Actualizar
+                        </button>
+                    </div>
+                    <div id="rsvpsContainer">
+                        <p class="admin__loading">Cargando confirmaciones...</p>
+                    </div>
+                </div>
+
+                <!-- Codes Section -->
+                <div id="codesSection" class="admin-section" style="display: none;">
+                    <div class="admin__header-row">
+                        <h2 class="admin__title">Códigos de Invitación</h2>
+                        <div class="admin__header-actions">
+                            <button class="btn btn--outline" onclick="AdminDashboard.refreshCodesTable()">
+                                🔄 Actualizar
+                            </button>
+                            <button class="btn btn--primary" onclick="AdminDashboard.showCreateCodeModal()">
+                                ➕ Crear código
+                            </button>
+                        </div>
+                    </div>
+                    <div id="codesContainer">
+                        <p class="admin__loading">Cargando códigos...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ==================== CODE MODAL ==================== -->
+    <div id="codeModal" class="modal">
+        <div class="modal__backdrop" onclick="AdminDashboard.hideCodeModal()"></div>
+        <div class="modal__content">
+            <div class="modal__header">
+                <h3 id="codeModalTitle" class="modal__title">Crear nuevo código</h3>
+                <button class="modal__close" onclick="AdminDashboard.hideCodeModal()">&times;</button>
+            </div>
+            <form id="codeForm" class="modal__form" onsubmit="AdminDashboard.handleCodeFormSubmit(event)">
+                <div class="form__group">
+                    <label for="codeInput" class="form__label">Código <span class="form__required">*</span></label>
+                    <div class="form__input-group">
+                        <input type="text" id="codeInput" class="form__input" placeholder="CODIGO123" required>
+                        <button type="button" class="btn btn--outline btn--small" onclick="AdminDashboard.generateNewCode()">
+                            🎲 Generar
+                        </button>
+                    </div>
+                </div>
+                <div class="form__group">
+                    <label for="assignedToInput" class="form__label">Asignado a</label>
+                    <input type="text" id="assignedToInput" class="form__input" placeholder="Nombre del invitado o grupo">
+                </div>
+                <div class="form__group">
+                    <label for="maxGuestsInput" class="form__label">Máximo de invitados</label>
+                    <input type="number" id="maxGuestsInput" class="form__input" min="1" value="2">
+                </div>
+                <div class="form__group form__group--checkbox">
+                    <label class="form__checkbox">
+                        <input type="checkbox" id="isActiveInput" checked>
+                        <span class="form__checkbox-custom"></span>
+                        <span class="form__checkbox-label">Código activo</span>
+                    </label>
+                </div>
+                <div class="modal__actions">
+                    <button type="button" class="btn btn--outline" onclick="AdminDashboard.hideCodeModal()">Cancelar</button>
+                    <button type="submit" class="btn btn--primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ==================== FOOTER ==================== -->
+    <footer class="footer">
+        <p class="footer__text">Sandra & Eduard · 2025 · Panel de Administración</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    
+    <!-- Application modules -->
+    <script src="js/firebase-config.example.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/invitation-codes.js"></script>
+    <script src="js/rsvp.js"></script>
+    <script src="js/admin-dashboard.js"></script>
+    
+    <script>
+        'use strict';
+
+        // ==================== ADMIN PAGE INITIALIZATION ====================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Firebase
+            const firebaseReady = window.FirebaseConfig.initialize();
+            
+            // Setup authentication tabs
+            setupAuthTabs();
+            
+            // Setup login forms
+            setupLoginForms();
+            
+            // Setup dashboard navigation
+            setupDashboardNav();
+            
+            // Setup logout button
+            setupLogoutButton();
+            
+            // Check if already authenticated
+            checkAuthentication();
+            
+            // Setup Firebase auth state listener
+            if (firebaseReady) {
+                window.AuthModule.onAuthStateChanged(function(user) {
+                    if (user) {
+                        showDashboard();
+                    }
+                });
+            }
+        });
+
+        /**
+         * Setup authentication method tabs
+         */
+        function setupAuthTabs() {
+            const tabs = document.querySelectorAll('.admin-login__tab');
+            const simpleForm = document.getElementById('simpleLoginForm');
+            const firebaseForm = document.getElementById('firebaseLoginForm');
+
+            tabs.forEach(function(tab) {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(function(t) { t.classList.remove('active'); });
+                    tab.classList.add('active');
+
+                    const tabName = tab.dataset.tab;
+                    if (tabName === 'simple') {
+                        simpleForm.style.display = 'block';
+                        firebaseForm.style.display = 'none';
+                    } else {
+                        simpleForm.style.display = 'none';
+                        firebaseForm.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        /**
+         * Setup login form handlers
+         */
+        function setupLoginForms() {
+            const simpleForm = document.getElementById('simpleLoginForm');
+            const firebaseForm = document.getElementById('firebaseLoginForm');
+            const errorElement = document.getElementById('loginError');
+
+            // Simple password login
+            simpleForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const password = document.getElementById('simplePassword').value;
+                
+                if (window.AuthModule.simplePasswordLogin(password)) {
+                    errorElement.textContent = '';
+                    showDashboard();
+                } else {
+                    errorElement.textContent = 'Contraseña incorrecta.';
+                }
+            });
+
+            // Firebase login
+            firebaseForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('firebaseEmail').value;
+                const password = document.getElementById('firebasePassword').value;
+                
+                try {
+                    await window.AuthModule.firebaseLogin(email, password);
+                    errorElement.textContent = '';
+                    showDashboard();
+                } catch (error) {
+                    errorElement.textContent = error.message;
+                }
+            });
+        }
+
+        /**
+         * Setup dashboard navigation
+         */
+        function setupDashboardNav() {
+            const navItems = document.querySelectorAll('.admin-nav__item');
+            const sections = {
+                overview: document.getElementById('overviewSection'),
+                rsvps: document.getElementById('rsvpsSection'),
+                codes: document.getElementById('codesSection')
+            };
+
+            navItems.forEach(function(item) {
+                item.addEventListener('click', function() {
+                    navItems.forEach(function(i) { i.classList.remove('active'); });
+                    item.classList.add('active');
+
+                    const sectionName = item.dataset.section;
+                    
+                    Object.values(sections).forEach(function(section) {
+                        section.style.display = 'none';
+                    });
+                    
+                    if (sections[sectionName]) {
+                        sections[sectionName].style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        /**
+         * Setup logout button
+         */
+        function setupLogoutButton() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            
+            logoutBtn.addEventListener('click', async function() {
+                await window.AuthModule.logout();
+                showLogin();
+            });
+        }
+
+        /**
+         * Check if user is already authenticated
+         */
+        function checkAuthentication() {
+            if (window.AuthModule.isAuthenticated()) {
+                showDashboard();
+            }
+        }
+
+        /**
+         * Show the login section
+         */
+        function showLogin() {
+            document.getElementById('loginSection').style.display = 'flex';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.getElementById('logoutBtn').style.display = 'none';
+        }
+
+        /**
+         * Show the dashboard section
+         */
+        function showDashboard() {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            document.getElementById('logoutBtn').style.display = 'block';
+            
+            // Load dashboard data
+            window.AdminDashboard.refreshAll();
+        }
+    </script>
+</body>
+</html>
