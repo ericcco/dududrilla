@@ -300,10 +300,10 @@ ul {
 /* Hero image container - styled to blend with background */
 .hero__image-container {
     width: 100%;
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto var(--spacing-lg);
     background-color: var(--color-cream);
-    border-radius: var(--radius-md);
+    border-radius: 0;
 }
 
 .hero__image {
@@ -312,7 +312,7 @@ ul {
     display: block;
     /* Mix-blend-mode helps integrate image with background */
     mix-blend-mode: multiply;
-    border-radius: var(--radius-md);
+    border-radius: 0;
 }
 
 .hero__buttons {
