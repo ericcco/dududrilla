@@ -12,6 +12,8 @@
     --color-pink-pale: #F2E5E5;
     --color-gold: #C9A96E;
     --color-gold-soft: #D4BC8A;
+    --color-red: #E84B30;
+    --color-red-dark: #D43D24;
     --color-text: #4A4A4A;
     --color-text-light: #7A7A7A;
     --color-white: #FFFFFF;
@@ -21,6 +23,8 @@
     /* Tipografías */
     --font-serif: 'Cormorant Garamond', Georgia, serif;
     --font-sans: 'Montserrat', Arial, sans-serif;
+    --font-script: 'Caveat', cursive;
+    --font-display: 'Bebas Neue', sans-serif;
     
     /* Espaciados */
     --spacing-xs: 0.5rem;
@@ -271,19 +275,89 @@ ul {
 
 /* ==================== HERO / SAVE THE DATE ==================== */
 .section--hero {
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink-pale) 50%, var(--color-cream-dark) 100%);
+    background-color: var(--color-cream);
     position: relative;
     overflow: hidden;
     text-align: center;
     padding-top: calc(var(--spacing-xxl) + 60px);
+    min-height: 100vh;
 }
 
 .hero__content {
     position: relative;
     z-index: 1;
     padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+/* Main title container with DUDU PARTY and date badge */
+.hero__main-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+}
+
+.hero__dudu {
+    font-family: var(--font-display);
+    font-size: 6rem;
+    font-weight: 400;
+    color: var(--color-red);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+    margin: 0;
+}
+
+.hero__date-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 2px solid var(--color-text);
+    border-radius: 50%;
+    transform: rotate(-5deg);
+    margin-top: var(--spacing-md);
+}
+
+.hero__date-badge span {
+    font-family: var(--font-script);
+    font-size: 1.5rem;
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* Names in script font */
+.hero__names {
+    font-family: var(--font-script);
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.2;
+}
+
+.hero__ampersand {
+    color: var(--color-text);
+    margin: 0 var(--spacing-xs);
+}
+
+/* Illustration */
+.hero__illustration {
+    width: 100%;
+    max-width: 400px;
+    margin: var(--spacing-md) auto var(--spacing-xl);
+}
+
+.hero__hands-svg {
+    width: 100%;
+    height: auto;
+}
+
+/* Keep existing hero styles that are still used */
 .hero__title {
     font-family: var(--font-serif);
     font-size: 3.5rem;
@@ -292,13 +366,6 @@ ul {
     color: var(--color-text);
     line-height: 1.2;
     margin-bottom: var(--spacing-md);
-}
-
-.hero__ampersand {
-    display: block;
-    font-size: 2rem;
-    color: var(--color-gold);
-    margin: var(--spacing-xs) 0;
 }
 
 .hero__subtitle {
@@ -324,6 +391,27 @@ ul {
     justify-content: center;
     gap: var(--spacing-md);
     flex-wrap: wrap;
+}
+
+/* Bottom corner info */
+.hero__bottom-info {
+    position: absolute;
+    bottom: var(--spacing-lg);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 var(--spacing-lg);
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--color-text);
+    text-transform: uppercase;
+}
+
+.hero__bottom-date,
+.hero__bottom-location {
+    max-width: 45%;
 }
 
 /* ==================== COUNTDOWN TIMER ==================== */
@@ -461,6 +549,67 @@ ul {
 
 .location__info-icon {
     font-size: 1.2rem;
+}
+
+/* ==================== REGALO / GIFT SECTION ==================== */
+.section--gift {
+    background-color: var(--color-cream);
+    padding: var(--spacing-xxl) 0;
+}
+
+.gift__layout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.gift__illustration {
+    flex: 0 0 200px;
+    max-width: 200px;
+}
+
+.gift__airplane-svg {
+    width: 100%;
+    height: auto;
+}
+
+.gift__trail {
+    stroke-dasharray: 5, 3;
+}
+
+.gift__content {
+    flex: 1;
+    min-width: 280px;
+    max-width: 500px;
+}
+
+.gift__title {
+    font-family: var(--font-script);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.3;
+}
+
+.gift__text {
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    color: var(--color-text);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-md);
+}
+
+.gift__account {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--color-red);
+    letter-spacing: 0.05em;
 }
 
 /* ==================== FORMULARIO RSVP ==================== */
@@ -662,6 +811,18 @@ ul {
         font-size: 3rem;
     }
     
+    .hero__dudu {
+        font-size: 8rem;
+    }
+    
+    .hero__names {
+        font-size: 4rem;
+    }
+    
+    .hero__date-badge span {
+        font-size: 1.8rem;
+    }
+    
     .hero__title {
         font-size: 5rem;
     }
@@ -682,10 +843,30 @@ ul {
         width: 300px;
         height: 300px;
     }
+    
+    .gift__layout {
+        flex-wrap: nowrap;
+    }
 }
 
 /* Escritorio */
 @media (min-width: 1024px) {
+    .hero__dudu {
+        font-size: 10rem;
+    }
+    
+    .hero__names {
+        font-size: 5rem;
+    }
+    
+    .hero__date-badge {
+        padding: var(--spacing-md) var(--spacing-lg);
+    }
+    
+    .hero__date-badge span {
+        font-size: 2rem;
+    }
+    
     .hero__title {
         font-size: 6rem;
     }
@@ -764,6 +945,45 @@ ul {
         padding-top: calc(var(--spacing-xl) + 80px);
     }
     
+    .hero__main-title {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-sm);
+    }
+    
+    .hero__dudu {
+        font-size: 4rem;
+    }
+    
+    .hero__date-badge {
+        margin-top: 0;
+        transform: rotate(-3deg);
+    }
+    
+    .hero__date-badge span {
+        font-size: 1.2rem;
+    }
+    
+    .hero__names {
+        font-size: 2.5rem;
+    }
+    
+    .hero__illustration {
+        max-width: 300px;
+    }
+    
+    .hero__bottom-info {
+        flex-direction: column;
+        align-items: center;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+    
+    .hero__bottom-date,
+    .hero__bottom-location {
+        max-width: 100%;
+    }
+    
     .hero__title {
         font-size: 2.5rem;
     }
@@ -807,6 +1027,23 @@ ul {
     .section__buttons {
         flex-direction: column;
         align-items: center;
+    }
+    
+    .gift__layout {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .gift__illustration {
+        order: -1;
+    }
+    
+    .gift__title {
+        font-size: 1.6rem;
+    }
+    
+    .gift__account {
+        font-size: 0.95rem;
     }
 }
 
@@ -853,7 +1090,7 @@ ul {
     justify-content: center;
     align-items: center;
     padding: var(--spacing-lg);
-    background: linear-gradient(135deg, var(--color-cream) 0%, var(--color-pink-pale) 50%, var(--color-cream-dark) 100%);
+    background-color: var(--color-cream);
     position: relative;
     overflow: hidden;
     text-align: center;
@@ -868,17 +1105,16 @@ ul {
 }
 
 .access-gate__title {
-    font-family: var(--font-serif);
-    font-size: 3rem;
-    font-weight: 400;
-    font-style: italic;
+    font-family: var(--font-script);
+    font-size: 3.5rem;
+    font-weight: 600;
     color: var(--color-text);
     line-height: 1.2;
     margin-bottom: var(--spacing-sm);
 }
 
 .access-gate__ampersand {
-    color: var(--color-gold);
+    color: var(--color-red);
 }
 
 .access-gate__subtitle {
