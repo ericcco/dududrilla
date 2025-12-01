@@ -175,6 +175,12 @@ function initInvitationCodeVerification() {
 
     if (!codeForm) return;
 
+    // Check if RSVP was already submitted (skip showing the form)
+    if (hasSubmittedRSVP()) {
+        showAlreadySubmittedMessage();
+        return;
+    }
+
     // Check if code is already validated from access gate
     const storedCode = getStoredAccessCode();
     if (storedCode && window.RSVPModule.getCurrentCode()) {
@@ -211,6 +217,14 @@ function initInvitationCodeVerification() {
         try {
             // Validate the code using the InvitationCodes module
             const codeData = await window.InvitationCodes.validateCode(code);
+            
+            // Check if RSVP already exists for this code
+            const rsvpExists = await checkAndHandleExistingRSVP(codeData.code);
+            if (rsvpExists) {
+                // Store the code anyway for reference
+                storeAccessCode(codeData);
+                return; // Already submitted message is shown by checkAndHandleExistingRSVP
+            }
             
             // Store the validated code in the RSVP module
             window.RSVPModule.setCurrentCode(codeData);
@@ -487,6 +501,7 @@ function initFirebase() {
 // ==================== ACCESS GATE ====================
 
 const ACCESS_CODE_KEY = 'wedding_access_code';
+const RSVP_SUBMITTED_KEY = 'rsvpSubmitted';
 
 /**
  * Check if user has already verified access code
@@ -494,6 +509,14 @@ const ACCESS_CODE_KEY = 'wedding_access_code';
  */
 function hasAccessCode() {
     return sessionStorage.getItem(ACCESS_CODE_KEY) !== null;
+}
+
+/**
+ * Check if user has already submitted RSVP (from sessionStorage)
+ * @returns {boolean}
+ */
+function hasSubmittedRSVP() {
+    return sessionStorage.getItem(RSVP_SUBMITTED_KEY) === '1';
 }
 
 /**
@@ -514,6 +537,65 @@ function getStoredAccessCode() {
 }
 
 /**
+ * Show the "already submitted" message and hide the RSVP form
+ */
+function showAlreadySubmittedMessage() {
+    const invitationCodeForm = document.getElementById('invitationCodeForm');
+    const invitationCodeInfo = document.getElementById('invitationCodeInfo');
+    const rsvpForm = document.getElementById('rsvpForm');
+    const rsvpConfirmation = document.getElementById('rsvpConfirmation');
+    const rsvpAlreadySubmitted = document.getElementById('rsvpAlreadySubmitted');
+    const rsvpButtons = document.getElementById('rsvpButtons');
+
+    // Hide all form elements
+    if (invitationCodeForm) {
+        invitationCodeForm.hidden = true;
+    }
+    if (invitationCodeInfo) {
+        invitationCodeInfo.hidden = true;
+    }
+    if (rsvpForm) {
+        rsvpForm.hidden = true;
+    }
+    if (rsvpConfirmation) {
+        rsvpConfirmation.hidden = true;
+    }
+    if (rsvpButtons) {
+        rsvpButtons.hidden = true;
+    }
+
+    // Show the already submitted message
+    if (rsvpAlreadySubmitted) {
+        rsvpAlreadySubmitted.hidden = false;
+    }
+}
+
+/**
+ * Check if RSVP exists in Firestore for the given code and update UI accordingly
+ * @param {string} code - The invitation code to check
+ * @returns {Promise<boolean>} - True if RSVP already exists
+ */
+async function checkAndHandleExistingRSVP(code) {
+    if (!window.RSVPModule || typeof window.RSVPModule.checkExistingRSVP !== 'function') {
+        return false;
+    }
+
+    try {
+        const exists = await window.RSVPModule.checkExistingRSVP(code);
+        if (exists) {
+            // Store in sessionStorage so we don't need to check again
+            sessionStorage.setItem(RSVP_SUBMITTED_KEY, '1');
+            showAlreadySubmittedMessage();
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Error checking existing RSVP:', error);
+        return false;
+    }
+}
+
+/**
  * Show the main website content and hide access gate
  */
 function showMainContent() {
@@ -531,7 +613,7 @@ function showMainContent() {
 /**
  * Initialize the access gate system
  */
-function initAccessGate() {
+async function initAccessGate() {
     const accessGate = document.getElementById('accessGate');
     const mainContent = document.getElementById('mainContent');
     
@@ -548,6 +630,14 @@ function initAccessGate() {
             window.RSVPModule.setCurrentCode(storedCode);
         }
         showMainContent();
+        
+        // Check if RSVP was already submitted (from sessionStorage first, then Firestore)
+        if (hasSubmittedRSVP()) {
+            showAlreadySubmittedMessage();
+        } else if (storedCode && storedCode.code) {
+            // Check Firestore for existing RSVP
+            await checkAndHandleExistingRSVP(storedCode.code);
+        }
         return;
     }
     
@@ -597,6 +687,9 @@ function initAccessGate() {
             
             // Show main content
             showMainContent();
+            
+            // Check if RSVP was already submitted for this code
+            await checkAndHandleExistingRSVP(codeData.code);
             
         } catch (error) {
             if (accessCodeError) {
