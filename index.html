@@ -9,7 +9,7 @@
     <!-- Google Fonts - Tipografías elegantes serif -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 <body>
     <!-- ==================== ACCESS GATE - INVITATION CODE VERIFICATION ==================== -->
@@ -74,14 +74,55 @@
             <!-- ==================== SECCIÓN 1: SAVE THE DATE (LANDING) ==================== -->
             <section class="section section--hero" id="save-the-date">
                 <div class="hero__content">
-                    <!-- Título principal - Fácil de editar -->
-                    <h1 class="hero__title">Sandra <span class="hero__ampersand">&</span> Eduard</h1>
+                    <!-- Large bold title - DUDU PARTY -->
+                    <div class="hero__main-title">
+                        <h1 class="hero__dudu">DUDU<br>PARTY</h1>
+                        <div class="hero__date-badge">
+                            <span>27|06|26</span>
+                        </div>
+                    </div>
                     
-                    <!-- Subtítulo -->
-                    <p class="hero__subtitle">Save the Date</p>
+                    <!-- Names in script font -->
+                    <p class="hero__names">Sandra <span class="hero__ampersand">&</span> Eduard</p>
                     
-                    <!-- Fecha de la boda - EDITAR AQUÍ LA FECHA -->
-                    <p class="hero__date">27 de Junio de 2026</p>
+                    <!-- Illustrated hands with flowers -->
+                    <div class="hero__illustration">
+                        <svg class="hero__hands-svg" viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Left hand holding carnation -->
+                            <g class="hero__hand hero__hand--left">
+                                <path d="M80,220 Q70,200 75,180 Q80,160 90,150 Q85,145 88,135 Q92,125 100,120 L105,125 Q100,130 102,138 Q95,145 95,155 Q90,165 92,180 Q95,195 100,210 Z" fill="none" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <path d="M100,210 Q105,195 110,180 Q115,165 112,155 Q108,145 115,135 Q118,130 115,125 L120,120 Q128,128 125,140 Q130,148 125,160 Q120,175 125,195 Q128,210 120,220 Z" fill="none" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <!-- Stem -->
+                                <path d="M100,120 Q102,100 105,80" fill="none" stroke="#4A4A4A" stroke-width="1"/>
+                                <path d="M90,110 Q95,100 100,95" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                                <path d="M115,108 Q110,98 105,93" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                            </g>
+                            <!-- Left carnation flower -->
+                            <g class="hero__flower hero__flower--left">
+                                <circle cx="105" cy="55" r="25" fill="#E84B30"/>
+                                <path d="M90,50 Q95,40 105,38 Q115,40 120,50" fill="#E84B30" stroke="#D43D24" stroke-width="0.5"/>
+                                <path d="M85,58 Q90,48 105,45 Q120,48 125,58" fill="#E84B30" stroke="#D43D24" stroke-width="0.5"/>
+                                <path d="M88,65 Q95,55 105,52 Q115,55 122,65" fill="#E84B30" stroke="#D43D24" stroke-width="0.5"/>
+                            </g>
+                            
+                            <!-- Right hand holding carnation -->
+                            <g class="hero__hand hero__hand--right">
+                                <path d="M320,220 Q330,200 325,180 Q320,160 310,150 Q315,145 312,135 Q308,125 300,120 L295,125 Q300,130 298,138 Q305,145 305,155 Q310,165 308,180 Q305,195 300,210 Z" fill="none" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <path d="M300,210 Q295,195 290,180 Q285,165 288,155 Q292,145 285,135 Q282,130 285,125 L280,120 Q272,128 275,140 Q270,148 275,160 Q280,175 275,195 Q272,210 280,220 Z" fill="none" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <!-- Stem -->
+                                <path d="M300,120 Q298,100 295,80" fill="none" stroke="#4A4A4A" stroke-width="1"/>
+                                <path d="M310,110 Q305,100 300,95" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                                <path d="M285,108 Q290,98 295,93" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                            </g>
+                            <!-- Right carnation flower -->
+                            <g class="hero__flower hero__flower--right">
+                                <circle cx="295" cy="55" r="25" fill="#E84B30"/>
+                                <path d="M280,50 Q285,40 295,38 Q305,40 310,50" fill="#E84B30" stroke="#D43D24" stroke-width="0.5"/>
+                                <path d="M275,58 Q280,48 295,45 Q310,48 315,58" fill="#E84B30" stroke="#D43D24" stroke-width="0.5"/>
+                                <path d="M278,65 Q285,55 295,52 Q305,55 312,65" fill="#E84B30" stroke="#D43D24" stroke-width="0.5"/>
+                            </g>
+                        </svg>
+                    </div>
 
                     <!-- Countdown Timer -->
                     <div class="countdown" id="countdown">
@@ -109,9 +150,12 @@
                         <a href="#rsvp" class="btn btn--secondary">Confirmar asistencia</a>
                     </div>
                 </div>
-                <!-- Decoración floral -->
-                <div class="hero__decoration hero__decoration--top"></div>
-                <div class="hero__decoration hero__decoration--bottom"></div>
+                
+                <!-- Bottom corner info -->
+                <div class="hero__bottom-info">
+                    <span class="hero__bottom-date">27 DE JUNIO DE 2026</span>
+                    <span class="hero__bottom-location">PRADOS RIVEROS, RASCAFRÍA</span>
+                </div>
             </section>
 
         <!-- ==================== SECCIÓN 2: UBICACIÓN ==================== -->
@@ -176,7 +220,11 @@
                         </li>
                         <li class="location__info-item">
                             <span class="location__info-icon">👔</span>
-                            <span><strong>Dress code:</strong> Etiqueta cóctel</span>
+                            <span><strong>Dress code:</strong> Recomendamos calzado cómodo ya que el aperitivo será en césped.</span>
+                        </li>
+                        <li class="location__info-item">
+                            <span class="location__info-icon">👗</span>
+                            <span><strong>Hombres:</strong> Traje con corbata.</span>
                         </li>
                     </ul>
                 </div>
@@ -184,6 +232,51 @@
                 <!-- Botones de navegación -->
                 <div class="section__buttons">
                     <a href="#save-the-date" class="btn btn--outline">Volver al inicio</a>
+                    <a href="#regalo" class="btn btn--primary">Lista de regalos</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== SECCIÓN 2.5: REGALO ==================== -->
+        <section class="section section--gift" id="regalo">
+            <div class="container">
+                <div class="gift__layout">
+                    <!-- Illustrated airplane with trail and stars -->
+                    <div class="gift__illustration">
+                        <svg class="gift__airplane-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Trail/path -->
+                            <path class="gift__trail" d="M30,180 Q20,140 40,100 Q60,60 100,50" fill="none" stroke="#4A4A4A" stroke-width="1.5" stroke-dasharray="0"/>
+                            <!-- Airplane -->
+                            <g class="gift__airplane" transform="translate(95, 35) rotate(45)">
+                                <ellipse cx="0" cy="0" rx="25" ry="8" fill="#FAF8F5" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <path d="M-8,-8 L-8,8 L-25,15 L-25,-15 Z" fill="#FAF8F5" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <path d="M15,-3 L15,3 L25,6 L25,-6 Z" fill="#FAF8F5" stroke="#4A4A4A" stroke-width="1.5"/>
+                                <circle cx="-5" cy="0" r="2" fill="#FAF8F5" stroke="#4A4A4A" stroke-width="1"/>
+                                <circle cx="5" cy="0" r="2" fill="#FAF8F5" stroke="#4A4A4A" stroke-width="1"/>
+                            </g>
+                            <!-- Stars -->
+                            <g class="gift__stars">
+                                <path d="M20,60 L22,55 L24,60 L29,60 L25,63 L27,68 L22,65 L17,68 L19,63 L15,60 Z" fill="none" stroke="#4A4A4A" stroke-width="1"/>
+                                <path d="M50,120 L51,117 L52,120 L55,120 L53,122 L54,125 L51,123 L48,125 L49,122 L46,120 Z" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                                <path d="M25,150 L27,145 L29,150 L34,150 L30,153 L32,158 L27,155 L22,158 L24,153 L20,150 Z" fill="none" stroke="#4A4A4A" stroke-width="1"/>
+                                <!-- Four-pointed stars -->
+                                <path d="M160,80 L162,75 L164,80 L169,82 L164,84 L162,89 L160,84 L155,82 Z" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                                <path d="M180,140 L181,137 L182,140 L185,141 L182,142 L181,145 L180,142 L177,141 Z" fill="none" stroke="#4A4A4A" stroke-width="0.8"/>
+                            </g>
+                        </svg>
+                    </div>
+                    
+                    <!-- Gift text content -->
+                    <div class="gift__content">
+                        <h2 class="gift__title">Tu presencia es nuestro mejor regalo...</h2>
+                        <p class="gift__text">Lo más importante para nosotros es vivir estos días con vosotros. Comer, reír, bailar, y a lo mejor llorar un poquito también, pero si queréis contribuir un poquito para nuestra luna de miel lo podéis hacer por Bizum al <strong>628723630</strong> o por transferencia al siguiente número de cuenta:</p>
+                        <p class="gift__account">ES94 2100 2360 0561 0044 4241</p>
+                    </div>
+                </div>
+
+                <!-- Botones de navegación -->
+                <div class="section__buttons">
+                    <a href="#ubicacion" class="btn btn--outline">Volver a ubicación</a>
                     <a href="#rsvp" class="btn btn--primary">Confirmar asistencia</a>
                 </div>
             </div>
