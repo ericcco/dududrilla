@@ -16,7 +16,7 @@
     <section id="accessGate" class="access-gate">
         <div class="invitation-container">
             <!-- Dark Envelope -->
-            <div class="envelope">
+            <div class="envelope" id="envelope">
                 <div class="envelope__body">
                     <!-- Wax Seal -->
                     <div class="wax-seal">
@@ -24,92 +24,92 @@
                     </div>
                 </div>
                 <div class="envelope__flap"></div>
+                
+                <!-- Parchment Card (hidden inside envelope initially) -->
+                <div class="parchment-card" id="parchmentCard">
+                    <div class="parchment-card__content">
+                        <!-- Dancing Couple Doodle -->
+                        <div class="parchment-card__illustration">
+                            <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg" class="dancing-couple-svg">
+                                <g stroke="#5a4a3a" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Woman (left) -->
+                                    <!-- Head -->
+                                    <circle cx="35" cy="18" r="8"/>
+                                    <!-- Hair -->
+                                    <path d="M27 15 Q25 8 30 5 Q38 2 42 8 Q44 12 43 18"/>
+                                    <path d="M28 18 Q26 22 28 25"/>
+                                    <!-- Body/Dress -->
+                                    <path d="M35 26 L35 40"/>
+                                    <path d="M35 40 Q25 55 20 75"/>
+                                    <path d="M35 40 Q45 55 50 75"/>
+                                    <path d="M20 75 Q35 72 50 75"/>
+                                    <!-- Arms -->
+                                    <path d="M35 32 Q25 35 22 40"/>
+                                    <path d="M35 32 Q50 30 58 35"/>
+                                    
+                                    <!-- Man (right) -->
+                                    <!-- Head -->
+                                    <circle cx="75" cy="15" r="8"/>
+                                    <!-- Hair -->
+                                    <path d="M67 12 Q68 6 75 5 Q82 6 83 12"/>
+                                    <!-- Body -->
+                                    <path d="M75 23 L75 45"/>
+                                    <!-- Jacket -->
+                                    <path d="M75 28 L68 45 L75 48 L82 45 L75 28"/>
+                                    <!-- Legs -->
+                                    <path d="M75 48 L68 75"/>
+                                    <path d="M75 48 L82 75"/>
+                                    <!-- Arms -->
+                                    <path d="M75 30 Q85 33 88 40"/>
+                                    <path d="M75 30 Q60 32 58 35"/>
+                                    
+                                    <!-- Joined hands (center) -->
+                                    <circle cx="58" cy="35" r="3" fill="#5a4a3a"/>
+                                    
+                                    <!-- Musical notes -->
+                                    <path d="M95 25 L95 15 Q100 12 100 18"/>
+                                    <circle cx="95" cy="25" r="2.5" fill="#5a4a3a"/>
+                                    <path d="M15 30 L15 20 Q10 17 10 23"/>
+                                    <circle cx="15" cy="30" r="2.5" fill="#5a4a3a"/>
+                                    
+                                    <!-- Hearts -->
+                                    <path d="M55 8 Q55 5 58 5 Q60 5 60 8 Q60 5 62 5 Q65 5 65 8 Q65 12 60 16 Q55 12 55 8" fill="#C9A96E" stroke="#C9A96E"/>
+                                </g>
+                            </svg>
+                        </div>
+                        
+                        <!-- Invitation Text -->
+                        <h1 class="parchment-card__title">Estás invitad@ a la boda de</h1>
+                        <h2 class="parchment-card__names">Sandra <span>&</span> Eduard</h2>
+                        
+                        <!-- Passcode Form (shown after envelope opens) -->
+                        <div class="passcode-container" id="passcodeContainer">
+                            <form id="accessCodeForm" novalidate>
+                                <div class="form__group">
+                                    <label for="accessCode" class="form__label">Código de invitación</label>
+                                    <input 
+                                        type="text" 
+                                        id="accessCode" 
+                                        name="accessCode" 
+                                        class="form__input form__input--code form__input--passcode"
+                                        placeholder="Introduce tu código"
+                                        autocomplete="off"
+                                        required>
+                                    <span class="form__error" id="accessCodeError"></span>
+                                </div>
+                                <button type="submit" class="btn btn--primary btn--passcode">Acceder</button>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Torn edges decoration (CSS pseudo-elements) -->
+                </div>
             </div>
             
-            <!-- Parchment Card -->
-            <div class="parchment-card">
-                <div class="parchment-card__content">
-                    <!-- Dancing Couple Doodle -->
-                    <div class="parchment-card__illustration">
-                        <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg" class="dancing-couple-svg">
-                            <g stroke="#5a4a3a" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                                <!-- Woman (left) -->
-                                <!-- Head -->
-                                <circle cx="35" cy="18" r="8"/>
-                                <!-- Hair -->
-                                <path d="M27 15 Q25 8 30 5 Q38 2 42 8 Q44 12 43 18"/>
-                                <path d="M28 18 Q26 22 28 25"/>
-                                <!-- Body/Dress -->
-                                <path d="M35 26 L35 40"/>
-                                <path d="M35 40 Q25 55 20 75"/>
-                                <path d="M35 40 Q45 55 50 75"/>
-                                <path d="M20 75 Q35 72 50 75"/>
-                                <!-- Arms -->
-                                <path d="M35 32 Q25 35 22 40"/>
-                                <path d="M35 32 Q50 30 58 35"/>
-                                
-                                <!-- Man (right) -->
-                                <!-- Head -->
-                                <circle cx="75" cy="15" r="8"/>
-                                <!-- Hair -->
-                                <path d="M67 12 Q68 6 75 5 Q82 6 83 12"/>
-                                <!-- Body -->
-                                <path d="M75 23 L75 45"/>
-                                <!-- Jacket -->
-                                <path d="M75 28 L68 45 L75 48 L82 45 L75 28"/>
-                                <!-- Legs -->
-                                <path d="M75 48 L68 75"/>
-                                <path d="M75 48 L82 75"/>
-                                <!-- Arms -->
-                                <path d="M75 30 Q85 33 88 40"/>
-                                <path d="M75 30 Q60 32 58 35"/>
-                                
-                                <!-- Joined hands (center) -->
-                                <circle cx="58" cy="35" r="3" fill="#5a4a3a"/>
-                                
-                                <!-- Musical notes -->
-                                <path d="M95 25 L95 15 Q100 12 100 18"/>
-                                <circle cx="95" cy="25" r="2.5" fill="#5a4a3a"/>
-                                <path d="M15 30 L15 20 Q10 17 10 23"/>
-                                <circle cx="15" cy="30" r="2.5" fill="#5a4a3a"/>
-                                
-                                <!-- Hearts -->
-                                <path d="M55 8 Q55 5 58 5 Q60 5 60 8 Q60 5 62 5 Q65 5 65 8 Q65 12 60 16 Q55 12 55 8" fill="#C9A96E" stroke="#C9A96E"/>
-                            </g>
-                        </svg>
-                    </div>
-                    
-                    <!-- Invitation Text -->
-                    <h1 class="parchment-card__title">Estás invitad@ a la boda de</h1>
-                    <h2 class="parchment-card__names">Sandra <span>&</span> Eduard</h2>
-                    
-                    <!-- Open Invitation Button -->
-                    <button type="button" class="btn btn--invitation" id="openInvitationBtn">
-                        Abrir invitación
-                    </button>
-                    
-                    <!-- Passcode Form (hidden initially) -->
-                    <div class="passcode-container" id="passcodeContainer">
-                        <form id="accessCodeForm" novalidate>
-                            <div class="form__group">
-                                <label for="accessCode" class="form__label">Código de invitación</label>
-                                <input 
-                                    type="text" 
-                                    id="accessCode" 
-                                    name="accessCode" 
-                                    class="form__input form__input--code form__input--passcode"
-                                    placeholder="Introduce tu código"
-                                    autocomplete="off"
-                                    required>
-                                <span class="form__error" id="accessCodeError"></span>
-                            </div>
-                            <button type="submit" class="btn btn--primary btn--passcode">Acceder</button>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- Torn edges decoration (CSS pseudo-elements) -->
-            </div>
+            <!-- Open Invitation Button (below envelope) -->
+            <button type="button" class="btn btn--invitation" id="openInvitationBtn">
+                Abrir invitación
+            </button>
         </div>
     </section>
 

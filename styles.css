@@ -1450,9 +1450,10 @@ ul {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     padding: var(--spacing-lg);
+    padding-bottom: 80px;
     background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 50%, #f0e2d3 100%);
     position: relative;
     overflow: hidden;
@@ -1486,10 +1487,10 @@ ul {
     position: relative;
     width: 100%;
     max-width: 380px;
-    height: 260px;
+    height: 280px;
     transform: rotate(-3deg);
-    margin-bottom: -120px;
     z-index: 1;
+    perspective: 1000px;
 }
 
 .envelope__body {
@@ -1503,6 +1504,7 @@ ul {
         0 15px 40px rgba(0, 0, 0, 0.3),
         0 5px 15px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    z-index: 3;
 }
 
 /* Paper texture on envelope */
@@ -1521,15 +1523,18 @@ ul {
 
 .envelope__flap {
     position: absolute;
-    top: 0;
+    top: 60px;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translateX(-50%) rotateX(0deg);
+    transform-origin: top center;
     width: 0;
     height: 0;
     border-left: 190px solid transparent;
     border-right: 190px solid transparent;
     border-top: 120px solid #4a403a;
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+    z-index: 4;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .envelope__flap::before {
@@ -1543,6 +1548,11 @@ ul {
     border-right: 190px solid transparent;
     border-top: 120px solid #5a4f48;
     opacity: 0.5;
+}
+
+/* Envelope opened state - flap rotates upward */
+.envelope.opened .envelope__flap {
+    transform: translateX(-50%) rotateX(180deg);
 }
 
 /* ==================== WAX SEAL ==================== */
@@ -1564,6 +1574,7 @@ ul {
         inset 0 -2px 6px rgba(0, 0, 0, 0.2),
         inset 0 2px 6px rgba(255, 255, 255, 0.3);
     z-index: 10;
+    transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 /* Wax seal irregular edge */
@@ -1595,10 +1606,19 @@ ul {
     letter-spacing: 0.05em;
 }
 
+/* Wax seal fades when envelope opens */
+.envelope.opened .wax-seal {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+}
+
 /* ==================== PARCHMENT CARD ==================== */
 .parchment-card {
-    position: relative;
-    width: 100%;
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(0);
+    width: calc(100% - 40px);
     max-width: 340px;
     background: linear-gradient(180deg, #faf6f0 0%, #f5ede3 50%, #f0e6d8 100%);
     border-radius: 4px;
@@ -1607,7 +1627,17 @@ ul {
     box-shadow: 
         0 10px 30px rgba(0, 0, 0, 0.15),
         0 3px 10px rgba(0, 0, 0, 0.1);
-    transform: rotate(1deg);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s ease 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, visibility 0s linear 1s;
+}
+
+/* Card appears when envelope opens */
+.envelope.opened .parchment-card {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(-380px);
+    transition: opacity 0.6s ease 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, visibility 0s linear 0s;
 }
 
 /* Torn/irregular edges using clip-path */
@@ -1634,6 +1664,7 @@ ul {
         0% 50%, 1% 42%, 0% 35%, 2% 28%, 0% 22%, 1% 15%, 
         0% 10%, 2% 5%
     );
+    border-radius: 4px;
 }
 
 /* Paper texture */
@@ -1709,6 +1740,9 @@ ul {
         0 2px 4px rgba(0, 0, 0, 0.1);
     text-transform: none;
     letter-spacing: 0.02em;
+    margin-top: var(--spacing-lg);
+    z-index: 5;
+    position: relative;
 }
 
 .btn--invitation:hover,
@@ -1728,26 +1762,17 @@ ul {
     display: none;
 }
 
-/* Passcode Container */
+/* Passcode Container - now shown after envelope opens */
 .passcode-container {
-    display: none;
-    margin-top: var(--spacing-lg);
-    animation: slideInFade 0.5s ease-out forwards;
+    margin-top: var(--spacing-md);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease 0.8s, transform 0.5s ease 0.8s;
 }
 
 .passcode-container.visible {
-    display: block;
-}
-
-@keyframes slideInFade {
-    from {
-        opacity: 0;
-        transform: translateY(15px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Passcode input styling */
@@ -1805,8 +1830,7 @@ ul {
     
     .envelope {
         max-width: 300px;
-        height: 200px;
-        margin-bottom: -90px;
+        height: 220px;
     }
     
     .envelope__body {
@@ -1814,6 +1838,7 @@ ul {
     }
     
     .envelope__flap {
+        top: 50px;
         border-left: 150px solid transparent;
         border-right: 150px solid transparent;
         border-top: 90px solid #4a403a;
@@ -1839,6 +1864,11 @@ ul {
     .parchment-card {
         max-width: 280px;
         padding: var(--spacing-lg) var(--spacing-md);
+        width: calc(100% - 20px);
+    }
+    
+    .envelope.opened .parchment-card {
+        transform: translateX(-50%) translateY(-220px);
     }
     
     .parchment-card__title {
@@ -1866,8 +1896,7 @@ ul {
     
     .envelope {
         max-width: 260px;
-        height: 180px;
-        margin-bottom: -80px;
+        height: 200px;
     }
     
     .envelope__body {
@@ -1875,6 +1904,7 @@ ul {
     }
     
     .envelope__flap {
+        top: 45px;
         border-left: 130px solid transparent;
         border-right: 130px solid transparent;
         border-top: 80px solid #4a403a;
@@ -1889,7 +1919,12 @@ ul {
     }
     
     .parchment-card {
-        max-width: 250px;
+        max-width: 240px;
+        width: calc(100% - 20px);
+    }
+    
+    .envelope.opened .parchment-card {
+        transform: translateX(-50%) translateY(-200px);
     }
     
     .parchment-card__title {
