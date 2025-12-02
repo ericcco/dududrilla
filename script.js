@@ -617,6 +617,32 @@ function showMainContent() {
 }
 
 /**
+ * Initialize the "Open Invitation" button functionality
+ */
+function initOpenInvitationButton() {
+    const openBtn = document.getElementById('openInvitationBtn');
+    const passcodeContainer = document.getElementById('passcodeContainer');
+    
+    if (!openBtn || !passcodeContainer) return;
+    
+    openBtn.addEventListener('click', function() {
+        // Hide the button
+        openBtn.classList.add('hidden');
+        
+        // Show the passcode container with animation
+        passcodeContainer.classList.add('visible');
+        
+        // Focus on the input field
+        const accessCodeInput = document.getElementById('accessCode');
+        if (accessCodeInput) {
+            setTimeout(function() {
+                accessCodeInput.focus();
+            }, 300);
+        }
+    });
+}
+
+/**
  * Initialize the access gate system
  */
 async function initAccessGate() {
@@ -627,6 +653,9 @@ async function initAccessGate() {
     if (!accessGate || !mainContent) {
         return;
     }
+    
+    // Initialize the open invitation button
+    initOpenInvitationButton();
     
     // Check if user already has access
     if (hasAccessCode()) {
