@@ -621,23 +621,31 @@ function showMainContent() {
  */
 function initOpenInvitationButton() {
     const openBtn = document.getElementById('openInvitationBtn');
+    const envelope = document.getElementById('envelope');
     const passcodeContainer = document.getElementById('passcodeContainer');
     
-    if (!openBtn || !passcodeContainer) return;
+    if (!openBtn || !envelope) return;
     
     openBtn.addEventListener('click', function() {
-        // Hide the button
+        // Hide the button with animation
         openBtn.classList.add('hidden');
         
-        // Show the passcode container with animation
-        passcodeContainer.classList.add('visible');
+        // Add 'opened' class to envelope to trigger animations
+        envelope.classList.add('opened');
         
-        // Focus on the input field
-        const accessCodeInput = document.getElementById('accessCode');
-        if (accessCodeInput) {
+        // Show the passcode container after envelope opens
+        if (passcodeContainer) {
             setTimeout(function() {
-                accessCodeInput.focus();
-            }, 300);
+                passcodeContainer.classList.add('visible');
+                
+                // Focus on the input field
+                const accessCodeInput = document.getElementById('accessCode');
+                if (accessCodeInput) {
+                    setTimeout(function() {
+                        accessCodeInput.focus();
+                    }, 300);
+                }
+            }, 800); // Wait for card animation to complete
         }
     });
 }
