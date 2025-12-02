@@ -1629,7 +1629,7 @@ ul {
         0 3px 10px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.6s ease 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, visibility 0s linear 1s;
+    transition: opacity 0.6s ease 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s;
 }
 
 /* Card appears when envelope opens */
@@ -1637,7 +1637,6 @@ ul {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(-380px);
-    transition: opacity 0.6s ease 0.3s, transform 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s, visibility 0s linear 0s;
 }
 
 /* Torn/irregular edges using clip-path */
